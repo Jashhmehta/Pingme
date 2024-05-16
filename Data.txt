@@ -1,0 +1,20 @@
+->React helmet 
+This library helps our react apps to become seo friendly, it bascially help us add dynamic meta tags so
+that our website are discovered more efficiently on web.
+Tutorial: (https://youtu.be/OGoPhwK_P_Q?si=HbvX0FYkXYInU4Pl)
+
+->Lazy Loading / Code splitting
+Lazy loading is a technique for waiting to load certain parts of a webpage — especially images — 
+until they are needed. Instead of loading everything all at once, known as "eager" loading, the 
+browser does not request certain resources until the user interacts in such a way that the resources 
+are needed. It consist of 3 parts:
+1. Importing the component
+2. Suspense
+3. Error Boundary
+Documentation: (https://react.dev/reference/react/lazy)
+Tutorial: (https://youtu.be/IBrmsyy9R94?si=HEFPpDhJvgaWkJxr)
+
+->
+
+
+
