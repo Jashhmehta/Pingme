@@ -11,17 +11,24 @@ import {
 } from "@mui/material";
 import { CameraAlt } from "@mui/icons-material";
 import { VisuallyHiddenInput } from "../Components/Styles/StyledComponents";
-import { useInputValidation, useStrongPassword } from "6pp";
+import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
 import { usernameValidator } from "../Utils/validators";
-
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const toggleLogin = () => setIsLogin((prev) => !prev);
-  const name=useInputValidation("")
-  const username=useInputValidation("", usernameValidator)
-  const password=useStrongPassword()
+  const name = useInputValidation("");
+  const username = useInputValidation("", usernameValidator);
+  const password = useStrongPassword();
+  const avatar = useFileHandler("single");
+  const handleLogin=(e)=>{
+    e.preventDefault();
+  }
+  const handleSignup=(e)=>{
+    e.preventDefault();
+  }
   return (
+    <div style={{backgroundImage: 'linear-gradient(to bottom right, navy, purple)'}}>
     <Container
       component={"main"}
       maxWidth="xs"
@@ -30,6 +37,7 @@ export const Login = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+
       }}
     >
       <Paper
@@ -39,12 +47,14 @@ export const Login = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          borderRadius:"30px"
+          
         }}
       >
         {isLogin ? (
           <>
             <Typography variant="h3">Login</Typography>
-            <form style={{ width: "100%", marginTop: "1rem" }}>
+            <form style={{ width: "100%", marginTop: "1rem" }} onSubmit={handleLogin}>
               <TextField
                 required
                 fullWidth
@@ -93,29 +103,38 @@ export const Login = () => {
         ) : (
           <>
             <Typography variant="h3">Sign Up</Typography>
-            <form style={{ width: "100%", marginTop: "1rem" }}>
+            <form style={{ width: "100%", marginTop: "1rem" }} onSubmit={handleSignup}>
               <Stack position={"relative"} width={"10rem"} margin={"auto"}>
                 <Avatar
                   sx={{ width: "10rem", height: "10rem", objectFit: "contain" }}
+                  src={avatar.preview}
                 />
-              
-              <IconButton
-                sx={{
-                  position: "absolute",
-                  bottom: "0",
-                  right: "0",
-                  bgcolor: "rgba(0,0,0,0.5)",
-                  ":hover": {
-                    bgcolor: "rgba(0,0,0,0.7)",
-                  },
-                }}
-                component="label"
-              >
-                <>
-                  <CameraAlt />
-                  <VisuallyHiddenInput type="file" />
-                </>
-              </IconButton>
+                {avatar.error && (
+                  <Typography color="error" variant="caption">
+                    {avatar.error}
+                  </Typography>
+                )}
+
+                <IconButton
+                  sx={{
+                    position: "absolute",
+                    bottom: "0",
+                    right: "0",
+                    bgcolor: "rgba(0,0,0,0.5)",
+                    ":hover": {
+                      bgcolor: "rgba(0,0,0,0.7)",
+                    },
+                  }}
+                  component="label"
+                >
+                  <>
+                    <CameraAlt />
+                    <VisuallyHiddenInput
+                      type="file"
+                      onChange={avatar.changeHandler}
+                    />
+                  </>
+                </IconButton>
               </Stack>
 
               <TextField
@@ -138,13 +157,11 @@ export const Login = () => {
                 onChange={username.changeHandler}
               ></TextField>
 
-              {
-                username.error && (
-                  <Typography color="error" variant="caption">
-                    {username.error}
-                  </Typography>
-                )
-              }
+              {username.error && (
+                <Typography color="error" variant="caption">
+                  {username.error}
+                </Typography>
+              )}
 
               <TextField
                 required
@@ -157,13 +174,11 @@ export const Login = () => {
                 onChange={password.changeHandler}
               ></TextField>
 
-{
-              password.error && (
-                  <Typography color="error" variant="caption">
-                    {password.error}
-                  </Typography>
-                )
-              }
+              {password.error && (
+                <Typography color="error" variant="caption">
+                  {password.error}
+                </Typography>
+              )}
 
               <Button
                 sx={{ marginTop: "1rem" }}
@@ -192,5 +207,6 @@ export const Login = () => {
         )}
       </Paper>
     </Container>
+    </div>
   );
 };
