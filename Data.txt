@@ -14,7 +14,12 @@ are needed. It consist of 3 parts:
 Documentation: (https://react.dev/reference/react/lazy)
 Tutorial: (https://youtu.be/IBrmsyy9R94?si=HEFPpDhJvgaWkJxr)
 
-->
+->Higher Order Component:
+A higher-order component is a function that takes a component and returns a new component.
+Documentation: (https://legacy.reactjs.org/docs/higher-order-components.html
+https://www.freecodecamp.org/news/higher-order-components-in-react/)
+Tutorial: (https://youtu.be/CbvhUaq0GyI?si=uxj-te_UEPPAzu3W)
+
 
 
 
