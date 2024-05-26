@@ -12,6 +12,7 @@ import {
   Group as GroupIcon,
   Logout as LogoutIcon,
   Menu as MenuIcon,
+  Notifications as NotificationsIcon,
   Search as SearchIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -23,16 +24,16 @@ const Header = () => {
   const [isNotification, setIsNotification] = useState(false);
 
   const handleMobile = () => {
-    setMobile(prev=>!prev);
+    setMobile((prev) => !prev);
   };
   const openSearchDialog = () => {
-    setSearch(prev=>!prev)
+    setSearch((prev) => !prev);
   };
   const openNewGroup = () => {
-    setIsNewGroup(prev=>!prev)
+    setIsNewGroup((prev) => !prev);
   };
   const openNotification = () => {
-    setIsNotification(prev=>!prev)
+    setIsNotification((prev) => !prev);
   };
   const navigateToGroup = () => {
     startTransition(() => {
@@ -85,6 +86,13 @@ const Header = () => {
                 icon={<GroupIcon />}
                 onClick={navigateToGroup}
               />
+
+              <IconBtn
+                title={"Notifications"}
+                icon={<NotificationsIcon />}
+                onClick={openNotification}
+              />
+
               <IconBtn
                 title={"Logout"}
                 icon={<LogoutIcon />}
