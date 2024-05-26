@@ -10,6 +10,7 @@ import React, { startTransition } from "react";
 import {
   Add as AddIcon,
   Group as GroupIcon,
+  Logout as LogoutIcon,
   Menu as MenuIcon,
   Search as SearchIcon,
 } from "@mui/icons-material";
@@ -30,6 +31,9 @@ const Header = () => {
     startTransition(() => {
       navigate("/groups");
     });
+  };
+  const logoutHandler = () => {
+    console.log("Logout");
   };
   return (
     <>
@@ -73,6 +77,11 @@ const Header = () => {
                 title={"Manage Groups"}
                 icon={<GroupIcon />}
                 onClick={navigateToGroup}
+              />
+               <IconBtn
+                title={"Logout"}
+                icon={<LogoutIcon />}
+                onClick={logoutHandler}
               />
             </Box>
           </Toolbar>
