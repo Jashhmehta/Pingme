@@ -6,7 +6,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { startTransition, useState } from "react";
+import React, { startTransition, Suspense, useState } from "react";
 import {
   Add as AddIcon,
   Group as GroupIcon,
@@ -16,6 +16,12 @@ import {
   Search as SearchIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+
+const SearchDialog = React.lazy(() => import("../Specific/Search"));
+const NotificationDialog = React.lazy(() =>
+  import("../Specific/Notifications")
+);
+const NewGroupDialog = React.lazy(() => import("../Dialogs/NewGroup"));
 const Header = () => {
   const navigate = useNavigate();
   const [mobile, setMobile] = useState(false);
@@ -102,6 +108,21 @@ const Header = () => {
           </Toolbar>
         </AppBar>
       </Box>
+      {isSearch && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <SearchDialog />
+        </Suspense>
+      )}
+      {isNotification && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <NotificationDialog />
+        </Suspense>
+      )}
+      {isNewGroup && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <NewGroupDialog />
+        </Suspense>
+      )}
     </>
   );
 };
