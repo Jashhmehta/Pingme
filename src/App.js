@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./Client/Pages/Login";
 import ProtectRoute from "./Client/Components/Auth/ProtectRoute";
+import { LayoutLoader } from "./Client/Components/Layout/Loaders";
 
 const Home = lazy(() => import("./Client/Pages/Home"));
 const Chat = lazy(() => import("./Client/Pages/Chat"));
@@ -12,7 +13,7 @@ let user = true;
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LayoutLoader />}>
         <Routes>
           <Route element={<ProtectRoute user={user} />}>
             <Route path="/" element={<Home />} />
