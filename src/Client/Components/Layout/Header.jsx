@@ -6,7 +6,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { startTransition } from "react";
 import {
   Add as AddIcon,
   Group as GroupIcon,
@@ -26,7 +26,10 @@ const Header = () => {
     console.log("Open new group");
   };
   const navigateToGroup = () => {
-    navigate("/groups");
+    // Wrap the navigation in a startTransition to handle the update correctly
+    startTransition(() => {
+      navigate("/groups");
+    });
   };
   return (
     <>
