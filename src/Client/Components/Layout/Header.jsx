@@ -26,7 +26,7 @@ const Header = () => {
     console.log("Open new group");
   };
   const navigateToGroup = () => {
-    navigate("/groups")
+    navigate("/groups");
   };
   return (
     <>
@@ -56,34 +56,36 @@ const Header = () => {
             />
 
             <Box>
-              <Tooltip title="Search">
-                <IconButton
-                  color="inherit"
-                  size="large"
-                  onClick={openSearchDialog}
-                >
-                  <SearchIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="New Group">
-                <IconButton color="inherit" size="large" onClick={openNewGroup}>
-                  <AddIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Manage Groups">
-                <IconButton
-                  color="inherit"
-                  size="large"
-                  onClick={navigateToGroup}
-                >
-                  <GroupIcon />
-                </IconButton>
-              </Tooltip>
+              <IconBtn
+                title={"Search"}
+                icon={<SearchIcon />}
+                onClick={openSearchDialog}
+              />
+              <IconBtn
+                title={"New Group"}
+                icon={<AddIcon />}
+                onClick={openNewGroup}
+              />
+              <IconBtn
+                title={"Manage Groups"}
+                icon={<GroupIcon />}
+                onClick={navigateToGroup}
+              />
             </Box>
           </Toolbar>
         </AppBar>
       </Box>
     </>
+  );
+};
+
+const IconBtn = ({ title, icon, onClick }) => {
+  return (
+    <Tooltip title={title}>
+      <IconButton color="inherit" size="large" onClick={onClick}>
+        {icon}
+      </IconButton>
+    </Tooltip>
   );
 };
 
