@@ -6,7 +6,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { startTransition } from "react";
+import React, { startTransition, useState } from "react";
 import {
   Add as AddIcon,
   Group as GroupIcon,
@@ -17,17 +17,24 @@ import {
 import { useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
+  const [mobile, setMobile] = useState(false);
+  const [isSearch, setSearch] = useState(false);
+  const [isNewGroup, setIsNewGroup] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
+
   const handleMobile = () => {
-    console.log("Mobile");
+    setMobile(prev=>!prev);
   };
   const openSearchDialog = () => {
-    console.log("Search Dialog");
+    setSearch(prev=>!prev)
   };
   const openNewGroup = () => {
-    console.log("Open new group");
+    setIsNewGroup(prev=>!prev)
+  };
+  const openNotification = () => {
+    setIsNotification(prev=>!prev)
   };
   const navigateToGroup = () => {
-    // Wrap the navigation in a startTransition to handle the update correctly
     startTransition(() => {
       navigate("/groups");
     });
@@ -78,7 +85,7 @@ const Header = () => {
                 icon={<GroupIcon />}
                 onClick={navigateToGroup}
               />
-               <IconBtn
+              <IconBtn
                 title={"Logout"}
                 icon={<LogoutIcon />}
                 onClick={logoutHandler}
