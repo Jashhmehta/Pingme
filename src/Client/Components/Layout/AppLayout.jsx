@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import Title from "../Shared/Title";
 import { Grid } from "@mui/material";
+import Chatlist from "../Specific/Chatlist";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
@@ -9,9 +10,8 @@ const AppLayout = () => (WrappedComponent) => {
       <>
         <Title />
         <Header />
-     
-        <Grid container height={"calc(100vh - 4rem)"}>
 
+        <Grid container height={"calc(100vh - 4rem)"}>
           <Grid
             item
             sm={4}
@@ -22,7 +22,7 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
             bgcolor="primary.main"
           >
-            1
+            <Chatlist />
           </Grid>
           <Grid
             item
@@ -42,8 +42,8 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
             sx={{
               display: { xs: "none", sm: "block" },
-              padding:"2rem",
-              bgcolor:"rgba(0,0,0,0.85)"
+              padding: "2rem",
+              bgcolor: "rgba(0,0,0,0.85)",
             }}
             bgcolor="primary.main"
           >
