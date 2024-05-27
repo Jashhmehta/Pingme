@@ -17,7 +17,7 @@ const Chatlist = (
   return <Stack width={w} direction={"column"}>
     { 
       chats?.map((data)=>{
-        return <div>SD</div>
+        return <div>{data}</div>
       })
     }
   </Stack>;

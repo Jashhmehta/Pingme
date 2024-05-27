@@ -22,7 +22,7 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
             bgcolor="primary.main"
           >
-            <Chatlist />
+            <Chatlist chats={[1,2,3,4,5]} />
           </Grid>
           <Grid
             item
