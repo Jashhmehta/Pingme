@@ -3,6 +3,7 @@ import Header from "./Header";
 import Title from "../Shared/Title";
 import { Grid } from "@mui/material";
 import Chatlist from "../Specific/Chatlist";
+import { samplechats } from "../../../constants/sampleData";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
@@ -22,7 +23,7 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
             bgcolor="primary.main"
           >
-            <Chatlist chats={[1,2,3,4,5]} />
+            <Chatlist chats={samplechats} chatId={"1"} />
           </Grid>
           <Grid
             item
