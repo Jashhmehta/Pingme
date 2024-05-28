@@ -7,6 +7,8 @@ import { samplechats } from "../../../constants/sampleData";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
+
+    
     return (
       <>
         <Title />
@@ -23,7 +25,17 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
             bgcolor="primary.main"
           >
-            <Chatlist chats={samplechats} chatId={"1"} />
+            <Chatlist
+              chats={samplechats}
+              chatId={"1"}
+              newMessagesAlert={[
+                {
+                  chatId: "1",
+                  count: 4,
+                },
+              ]}
+              onlineUsers={["1","2"]}
+            />
           </Grid>
           <Grid
             item

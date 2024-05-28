@@ -35,9 +35,11 @@ const Chatlist = ({
             groupChat={groupChat}
             sameSender={chatId === _id}
             handleDeleteChatOpen={handleDeleteChat}
+            
           />
         );
       })}
+   
     </Stack>
   );
 };
