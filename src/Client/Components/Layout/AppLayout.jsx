@@ -1,14 +1,20 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import Header from "./Header";
 import Title from "../Shared/Title";
 import { Grid } from "@mui/material";
 import Chatlist from "../Specific/Chatlist";
 import { samplechats } from "../../../constants/sampleData";
+import { useParams } from "react-router-dom";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
-
-    
+    const params = useParams();
+    const chatId = params.chatId;
+    const handleDeleteChat = (e, _id, groupChat) => {
+      e.preventDefault();
+      console.log("Delete Chat", _id, groupChat);
+    };
     return (
       <>
         <Title />
@@ -27,14 +33,8 @@ const AppLayout = () => (WrappedComponent) => {
           >
             <Chatlist
               chats={samplechats}
-              chatId={"1"}
-              newMessagesAlert={[
-                {
-                  chatId: "1",
-                  count: 4,
-                },
-              ]}
-              onlineUsers={["1","2"]}
+              chatId={chatId}
+              handleDeleteChat={handleDeleteChat}
             />
           </Grid>
           <Grid
