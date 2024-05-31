@@ -29,7 +29,7 @@ const AppLayout = () => (WrappedComponent) => {
               display: { xs: "none", sm: "block" },
             }}
             height={"100%"}
-            bgcolor="primary.main"
+            
           >
             <Chatlist
               chats={samplechats}
@@ -44,7 +44,7 @@ const AppLayout = () => (WrappedComponent) => {
             md={5}
             lg={6}
             height={"100%"}
-            bgcolor="primary.main"
+          
           >
             <WrappedComponent {...props} />
           </Grid>

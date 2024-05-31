@@ -1,6 +1,7 @@
+import Photo from "./photo.jpg"
 export const samplechats=[
     {
-    avatar:"",
+    avatar:[Photo],
     name:"Jash Mehta",
     _id:"1",
     groupChat:false,

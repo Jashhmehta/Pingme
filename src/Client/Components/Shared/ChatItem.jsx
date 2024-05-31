@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { Link } from "../Styles/StyledComponents";
 import { Box, Stack, Typography } from "@mui/material";
+import AvatarCard from "./AvatarCard";
 const ChatItem = ({
   avatar = [],
   name,
@@ -29,6 +30,7 @@ const ChatItem = ({
           position: "relative",
         }}
       >
+        <AvatarCard avatar={Array.isArray(avatar) ? avatar : []} />
         <Stack>
           <Typography>{name}</Typography>
           {newMessageAlert && <Typography>{newMessageAlert.count} New Message</Typography>}
