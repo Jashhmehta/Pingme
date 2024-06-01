@@ -28,3 +28,19 @@ export const sampleUsers = [
     _id: "2",
   }
 ];
+export const sampleNotifications = [
+  {
+    sender:{
+      avatar:"",
+      name:"Jash Mehta"
+    },
+    _id:"1"
+  },
+  {
+    sender:{
+      avatar:"",
+      name:"Aayush Doshi"
+    },
+    _id:"2"
+  }
+];
