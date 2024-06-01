@@ -1,18 +1,30 @@
-import { Avatar, Button, Dialog, DialogTitle, IconButton, ListItem, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  ListItem,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { memo } from "react";
 import { sampleNotifications } from "../../../constants/sampleData";
 
 const Notifications = () => {
-  const friendRequesthandler=({_id,accept})=>{
-
-  }
+  const friendRequesthandler = ({ _id, accept }) => {};
   return (
     <Dialog open>
       <Stack p={{ xs: "1rem", sm: "2rem" }} maxWidth={"25rem"}>
         <DialogTitle>Notifications</DialogTitle>
         {sampleNotifications.length > 0 ? (
           sampleNotifications.map((i) => (
-            <NotificationItem sender={i.sender} _id={i._id} handler={friendRequesthandler} key={i._id}/>
+            <NotificationItem
+              sender={i.sender}
+              _id={i._id}
+              handler={friendRequesthandler}
+              key={i._id}
+            />
           ))
         ) : (
           <Typography textAlign={"center"}>No Notifications</Typography>
@@ -22,8 +34,8 @@ const Notifications = () => {
   );
 };
 
-const NotificationItem =memo( ({ sender, _id, handler }) => {
-  const {name, avatar}=sender;
+const NotificationItem = memo(({ sender, _id, handler }) => {
+  const { name, avatar } = sender;
   return (
     <ListItem>
       <Stack
@@ -46,15 +58,19 @@ const NotificationItem =memo( ({ sender, _id, handler }) => {
         >
           {`${name} sent you a friend request`}
         </Typography>
-      <Stack direction={{
-        xs:"column",
-        sm:"row",
-      }}>
-        <Button onClick={()=>handler({_id, accept:true})}>Accept</Button>
-        <Button color="error" onClick={()=>handler({_id, accept:false})}>Reject</Button>
-      </Stack>
+        <Stack
+          direction={{
+            xs: "column",
+            sm: "row",
+          }}
+        >
+          <Button onClick={() => handler({ _id, accept: true })}>Accept</Button>
+          <Button color="error" onClick={() => handler({ _id, accept: false })}>
+            Reject
+          </Button>
+        </Stack>
       </Stack>
     </ListItem>
-  );;
+  );
 });
 export default Notifications;
