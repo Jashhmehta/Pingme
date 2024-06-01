@@ -16,7 +16,7 @@ const NewGroup = () => {
   const selectMemberHandler = () => {};
   return (
     <Dialog open>
-      <Stack p={{ xs: "1rem", sm: "2rem" }} maxWidth={"25rem"}>
+      <Stack p={{ xs: "1rem", sm: "2rem" }} width={"25rem"}>
         <DialogTitle>New Group</DialogTitle>
         <TextField />
         <Typography>Members</Typography>
