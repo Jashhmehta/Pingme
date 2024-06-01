@@ -17,12 +17,12 @@ import {
   Search as SearchIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-
+import NewGroup from "../Specific/NewGroup";
 const SearchDialog = React.lazy(() => import("../Specific/Search"));
 const NotificationDialog = React.lazy(() =>
   import("../Specific/Notifications")
 );
-const NewGroupDialog = React.lazy(() => import("../Dialogs/NewGroup"));
+
 const Header = () => {
   const navigate = useNavigate();
   const [mobile, setMobile] = useState(false);
@@ -121,7 +121,7 @@ const Header = () => {
       )}
       {isNewGroup && (
         <Suspense fallback={<Backdrop open />}>
-          <NewGroupDialog />
+          <NewGroup />
         </Suspense>
       )}
     </>
