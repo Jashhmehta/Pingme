@@ -1,9 +1,9 @@
-import { Add } from "@mui/icons-material";
+import { Add, Remove as RemoveIcon } from "@mui/icons-material";
 import { Avatar, IconButton, ListItem, Stack, Typography } from "@mui/material";
 import React from "react";
 import { memo } from "react";
 
-const UserItem = ({ user, handler, handlerIsLoading }) => {
+const UserItem = ({ user, handler, handlerIsLoading, isAdded=false }) => {
   const { name, _id, avatar } = user;
   return (
     <ListItem>
@@ -27,10 +27,12 @@ const UserItem = ({ user, handler, handlerIsLoading }) => {
         >
           {name}
         </Typography>
-        <IconButton size="small" sx={{bgcolor:"primary.main", color:"white", "&:hover":{
+        <IconButton size="small" sx={{bgcolor: isAdded? "error.main": "primary.main", color:"white", "&:hover":{
             bgcolor:"primary.dark",
         }}} onClick={() => handler(_id)} disabled={handlerIsLoading}>
-          <Add />
+          {
+            isAdded?<RemoveIcon />:<Add />      
+               }
         </IconButton>
       </Stack>
     </ListItem>

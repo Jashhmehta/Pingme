@@ -19,7 +19,9 @@ const NewGroup = () => {
   const groupName = useInputValidation();
   const selectMemberHandler = (id) => {
     setSelectedMembers((prev) =>
-      prev.includes(id) ? prev.filter((currElement) => currElement !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((currElement) => currElement !== id)
+        : [...prev, id]
     );
   };
   console.log(selectedmembers);
@@ -39,7 +41,12 @@ const NewGroup = () => {
         <Typography variant="body1">Members</Typography>
         <Stack>
           {members.map((i) => (
-            <UserItem user={i} key={i._id} handler={selectMemberHandler} />
+            <UserItem
+              user={i}
+              key={i._id}
+              handler={selectMemberHandler}
+              isAdded={selectedmembers.includes(i._id)}
+            />
           ))}
         </Stack>
         <Stack direction={"row"} justifyContent={"space-between"}>
