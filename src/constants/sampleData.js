@@ -63,7 +63,7 @@ export const sampleMessage=[
     },
 
   ],
-  content:"Message",
+  content:"Kaise chal raha hai react project?",
   _id:"e03i9023",
   sender:{
     _id:"user._id",
@@ -71,7 +71,7 @@ export const sampleMessage=[
 
   },
   chat:"chatId",
-  createdAt:""
+  createdAt: "2024-06-02T10:15:30Z"
 },
 {
   attachments:[
@@ -81,7 +81,7 @@ export const sampleMessage=[
     },
 
   ],
-  content:"Message",
+  content:"Chal raha hai bass",
   _id:"e03i9023",
   sender:{
     _id:"340224",
@@ -89,6 +89,6 @@ export const sampleMessage=[
 
   },
   chat:"chatId",
-  createdAt:""
+  createdAt: "2024-01-15T08:20:45Z"
 }
 ]
