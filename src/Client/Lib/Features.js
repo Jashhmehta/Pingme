@@ -16,4 +16,6 @@ const fileFormat = (url = "") => {
     return "image";
     return "file";
 };
-export { fileFormat };
+
+const transformImage=(url="", width=100)=>url;
+export { fileFormat, transformImage };

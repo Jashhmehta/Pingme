@@ -77,7 +77,7 @@ export const sampleMessage=[
   attachments:[
     {
       public_id:"2",
-      url:""
+      url:"https://www.w3schools.com/howto/img_avatar.png"
     },
 
   ],
