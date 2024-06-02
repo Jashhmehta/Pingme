@@ -3,8 +3,10 @@ import AppLayout from "../Components/Layout/AppLayout";
 import { IconButton, Stack } from "@mui/material";
 import { AttachFile, Send } from "@mui/icons-material";
 import { InputBox } from "../Components/Styles/StyledComponents";
+import FileMenu from "../Components/Dialogs/FileMenu";
 const Chat = () => {
   const containerRef = useRef(null);
+  const fileMenuRef=useRef(null);
   return (
     <>
       <Stack
@@ -31,12 +33,14 @@ const Chat = () => {
           alignItems={"center"}
           position={"relative"}
         >
-          <IconButton sx={{
-            position:"absolute",
-            left:"1.5rem",
-            rotate:"30deg",
-
-          }}>
+          <IconButton
+            sx={{
+              position: "absolute",
+              left: "1.5rem",
+              rotate: "30deg",
+            }}
+            ref={fileMenuRef}
+          >
             <AttachFile />
           </IconButton>
           <InputBox placeholder="Type your message here" />
@@ -57,6 +61,7 @@ const Chat = () => {
           </IconButton>
         </Stack>
       </form>
+    <FileMenu anchorE1={fileMenuRef.current}/>
     </>
   );
 };
