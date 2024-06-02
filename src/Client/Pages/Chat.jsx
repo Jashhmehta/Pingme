@@ -39,7 +39,7 @@ const Chat = () => {
               left: "1.5rem",
               rotate: "30deg",
             }}
-            ref={fileMenuRef}
+       
           >
             <AttachFile />
           </IconButton>
@@ -61,7 +61,7 @@ const Chat = () => {
           </IconButton>
         </Stack>
       </form>
-    <FileMenu anchorE1={fileMenuRef.current}/>
+    <FileMenu/>
     </>
   );
 };
