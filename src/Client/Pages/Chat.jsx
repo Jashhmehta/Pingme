@@ -4,6 +4,13 @@ import { IconButton, Stack } from "@mui/material";
 import { AttachFile, Send } from "@mui/icons-material";
 import { InputBox } from "../Components/Styles/StyledComponents";
 import FileMenu from "../Components/Dialogs/FileMenu";
+import { sampleMessage } from "../../constants/sampleData";
+import MessageComponent from "../Components/Shared/MessageComponent";
+const user={
+  _id:"340224",
+  name:"Jash",
+
+}
 const Chat = () => {
   const containerRef = useRef(null);
   const fileMenuRef=useRef(null);
@@ -20,7 +27,13 @@ const Chat = () => {
           overflowX: "hidden",
           overflowY: "auto",
         }}
-      ></Stack>
+      >
+        {
+          sampleMessage.map((i)=>(
+            <MessageComponent message={i} user={user}/>
+          ))
+        }
+      </Stack>
       <form
         style={{
           height: "10%",

@@ -1,16 +1,25 @@
-import Photo from "./photo.jpg";
+import jash from "./jash.jpg"
+import yash from "./yash.jpg"
+import aayush from "./aayush.jpg"
 export const samplechats = [
   {
-    avatar: [Photo],
+    avatar: [jash],
     name: "Jash Mehta",
     _id: "1",
     groupChat: false,
     members: ["1", "2"],
   },
   {
-    avatar: "",
+    avatar: [yash],
     name: "Yash Jobalia",
     _id: "2",
+    groupChat: false,
+    members: ["1", "2"],
+  },
+  {
+    avatar: [aayush],
+    name: "Aayush Doshi",
+    _id: "3",
     groupChat: false,
     members: ["1", "2"],
   },
@@ -18,7 +27,7 @@ export const samplechats = [
 
 export const sampleUsers = [
   {
-    avatar: [Photo],
+    avatar: [jash],
     name: "Jash Mehta",
     _id: "1",
   },
@@ -44,3 +53,42 @@ export const sampleNotifications = [
     _id:"2"
   }
 ];
+
+export const sampleMessage=[
+{
+  attachments:[
+    {
+      public_id:"1",
+      url:""
+    },
+
+  ],
+  content:"Message",
+  _id:"e03i9023",
+  sender:{
+    _id:"user._id",
+    name:"Yash",
+
+  },
+  chat:"chatId",
+  createdAt:""
+},
+{
+  attachments:[
+    {
+      public_id:"2",
+      url:""
+    },
+
+  ],
+  content:"Message",
+  _id:"e03i9023",
+  sender:{
+    _id:"340224",
+    name:"Aayush",
+
+  },
+  chat:"chatId",
+  createdAt:""
+}
+]
