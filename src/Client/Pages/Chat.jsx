@@ -31,19 +31,28 @@ const Chat = () => {
           alignItems={"center"}
           position={"relative"}
         >
-          <IconButton>
+          <IconButton sx={{
+            position:"absolute",
+            left:"1.5rem",
+            rotate:"30deg",
+
+          }}>
             <AttachFile />
           </IconButton>
-          <InputBox placeholder="Type your message here"/>
-          <IconButton type="submit" sx={{
-            backgroundColor:"blue",
-            color:"white",
-            marginLeft:"1rem",
-            padding:"0.5rem",
-            "&:hover":{
-              bgcolor:"error.dark"
-            }
-          }}>
+          <InputBox placeholder="Type your message here" />
+          <IconButton
+            type="submit"
+            sx={{
+              rotate: "-30deg",
+              backgroundColor: "blue",
+              color: "white",
+              marginLeft: "1rem",
+              padding: "0.5rem",
+              "&:hover": {
+                bgcolor: "error.dark",
+              },
+            }}
+          >
             <Send />
           </IconButton>
         </Stack>
