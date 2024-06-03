@@ -1,6 +1,7 @@
 import { Done, Edit, KeyboardBackspace } from "@mui/icons-material";
 import {
   Avatar,
+  ButtonGroup,
   Grid,
   IconButton,
   Stack,
@@ -18,27 +19,25 @@ const Groups = () => {
   const chatId = useSearchParams()[0].get("group");
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  const [groupName, setGroupName]=useState("")
-  const [groupNameUpdatedValue, setGroupNameUpdatedValue]=useState("")
+  const [groupName, setGroupName] = useState("");
+  const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
   const navigateBack = () => {
     navigate("/");
   };
-  const updateGroupName=()=>{
+  const updateGroupName = () => {
     setIsEdit(false);
-    console.log(groupNameUpdatedValue)
+    console.log(groupNameUpdatedValue);
+  };
 
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     setGroupName(`Group Name ${chatId}`);
     setGroupNameUpdatedValue(`Group Name ${chatId}`);
-    return ()=>{
+    return () => {
       setGroupName("");
       setGroupNameUpdatedValue("");
       setIsEdit("false");
-    }
-   
-  },[chatId]);
+    };
+  }, [chatId]);
   const IconButtons = (
     <>
       <Tooltip titlee="back">
@@ -69,10 +68,13 @@ const Groups = () => {
     >
       {isEdit ? (
         <>
-        <TextField  value={groupNameUpdatedValue} onChange={e=>setGroupNameUpdatedValue(e.target.value)}/>
-        <IconButton onClick={updateGroupName}>
-          <Done />
-        </IconButton> 
+          <TextField
+            value={groupNameUpdatedValue}
+            onChange={(e) => setGroupNameUpdatedValue(e.target.value)}
+          />
+          <IconButton onClick={updateGroupName}>
+            <Done />
+          </IconButton>
         </>
       ) : (
         <>
@@ -85,6 +87,19 @@ const Groups = () => {
     </Stack>
   );
 
+  const ButtonGroup=
+  <Stack direction={{
+    sm:"row",
+    sx:"column-reverse",
+  }}
+  spacing={"1rem"}
+  p={{
+  sm:"1rem",
+  xs:"0",
+  md:"1rem 4rem"
+  }}>
+
+  </Stack>;
   return (
     <Grid container height={"100vh"}>
       <Grid item sm={4} bgcolor={"bisque"}>
@@ -103,7 +118,35 @@ const Groups = () => {
         }}
       >
         {IconButtons}
-        {groupName && GroupName}
+        {groupName && (
+          <>
+            {GroupName}
+            <Typography
+              margin={"2rem"}
+              alignSelf={"flex-start"}
+              variant="body1"
+            >
+              Members
+            </Typography>
+            <Stack maxWidth={"45rem"}
+            width={"100%"}
+            boxSizing={"border-box"}
+            padding={{
+              sm:"1rem",
+              xs:"0",
+              md:"1rem 4rem",
+            }}
+            spacing={"2rem"}
+            bgcolor={"blueviolet"}
+            height={"50vh"}
+            overflow={"auto"}>
+              
+            {/**Members */}
+
+            </Stack>
+            
+          </>
+        )}
       </Grid>
     </Grid>
   );
