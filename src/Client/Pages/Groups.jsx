@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
@@ -18,9 +18,27 @@ const Groups = () => {
   const chatId = useSearchParams()[0].get("group");
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
+  const [groupName, setGroupName]=useState("")
+  const [groupNameUpdatedValue, setGroupNameUpdatedValue]=useState("")
   const navigateBack = () => {
     navigate("/");
   };
+  const updateGroupName=()=>{
+    setIsEdit(false);
+    console.log(groupNameUpdatedValue)
+
+  }
+
+  useEffect(()=>{
+    setGroupName(`Group Name ${chatId}`);
+    setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    return ()=>{
+      setGroupName("");
+      setGroupNameUpdatedValue("");
+      setIsEdit("false");
+    }
+   
+  },[chatId]);
   const IconButtons = (
     <>
       <Tooltip titlee="back">
@@ -51,14 +69,14 @@ const Groups = () => {
     >
       {isEdit ? (
         <>
-        <TextField />
-        <IconButton onClick={()=>setIsEdit(false)}>
+        <TextField  value={groupNameUpdatedValue} onChange={e=>setGroupNameUpdatedValue(e.target.value)}/>
+        <IconButton onClick={updateGroupName}>
           <Done />
         </IconButton> 
         </>
       ) : (
         <>
-          <Typography variant="h4">Group Name</Typography>
+          <Typography variant="h4">{groupName}</Typography>
           <IconButton onClick={() => setIsEdit(true)}>
             <Edit />
           </IconButton>
@@ -85,7 +103,7 @@ const Groups = () => {
         }}
       >
         {IconButtons}
-        {GroupName}
+        {groupName && GroupName}
       </Grid>
     </Grid>
   );
