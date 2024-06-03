@@ -6,14 +6,14 @@ export const samplechats = [
     avatar: [jash],
     name: "Jash Mehta",
     _id: "1",
-    groupChat: false,
+    groupChat: true,
     members: ["1", "2"],
   },
   {
     avatar: [yash],
     name: "Yash Jobalia",
     _id: "2",
-    groupChat: false,
+    groupChat: true,
     members: ["1", "2"],
   },
   {
