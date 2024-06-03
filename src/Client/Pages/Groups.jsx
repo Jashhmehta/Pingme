@@ -1,6 +1,13 @@
-import { Done, Edit, KeyboardBackspace } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Done,
+  Edit,
+  KeyboardBackspace,
+} from "@mui/icons-material";
 import {
   Avatar,
+  Button,
   ButtonGroup,
   Grid,
   IconButton,
@@ -21,12 +28,23 @@ const Groups = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const navigateBack = () => {
     navigate("/");
   };
   const updateGroupName = () => {
     setIsEdit(false);
     console.log(groupNameUpdatedValue);
+  };
+  const openConfirmDeleteHandler = () => {
+    setConfirmDeleteDialog(true);
+    console.log("Delete Group");
+  };
+  const closeConfirmDeleteHandler = () => {
+    setConfirmDeleteDialog(false);
+  };
+  const openAddMemberHandler = () => {
+    console.log("Add member");
   };
 
   useEffect(() => {
@@ -87,19 +105,38 @@ const Groups = () => {
     </Stack>
   );
 
-  const ButtonGroup=
-  <Stack direction={{
-    sm:"row",
-    sx:"column-reverse",
-  }}
-  spacing={"1rem"}
-  p={{
-  sm:"1rem",
-  xs:"0",
-  md:"1rem 4rem"
-  }}>
-
-  </Stack>;
+  const ButtonGroup = (
+    <Stack
+      direction={{
+        sm: "row",
+        sx: "column-reverse",
+      }}
+      spacing={"1rem"}
+      p={{
+        sm: "1rem",
+        xs: "0",
+        md: "1rem 4rem",
+      }}
+    >
+      <Button
+        size="large"
+        color="error"
+        variant="outlined"
+        startIcon={<Delete />}
+        onclick={openConfirmDeleteHandler}
+      >
+        Delete Group
+      </Button>
+      <Button
+        size="large"
+        variant="contained"
+        startIcon={<Add />}
+        onclick={openAddMemberHandler}
+      >
+        Add Member
+      </Button>
+    </Stack>
+  );
   return (
     <Grid container height={"100vh"}>
       <Grid item sm={4} bgcolor={"bisque"}>
@@ -128,26 +165,27 @@ const Groups = () => {
             >
               Members
             </Typography>
-            <Stack maxWidth={"45rem"}
-            width={"100%"}
-            boxSizing={"border-box"}
-            padding={{
-              sm:"1rem",
-              xs:"0",
-              md:"1rem 4rem",
-            }}
-            spacing={"2rem"}
-            bgcolor={"blueviolet"}
-            height={"50vh"}
-            overflow={"auto"}>
-              
-            {/**Members */}
-
+            <Stack
+              maxWidth={"45rem"}
+              width={"100%"}
+              boxSizing={"border-box"}
+              padding={{
+                sm: "1rem",
+                xs: "0",
+                md: "1rem 4rem",
+              }}
+              spacing={"2rem"}
+              bgcolor={"blueviolet"}
+              height={"50vh"}
+              overflow={"auto"}
+            >
+              {/**Members */}
             </Stack>
-            
+            {ButtonGroup}
           </>
         )}
       </Grid>
+      {confirmDeleteDialog && <>scd</>}
     </Grid>
   );
 };
