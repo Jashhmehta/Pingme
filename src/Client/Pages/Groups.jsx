@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import {
   Avatar,
+  Backdrop,
   Button,
   ButtonGroup,
   Grid,
@@ -16,11 +17,14 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
 import { samplechats } from "../../constants/sampleData";
+const ConfirmDeleteDialog = React.lazy(() =>
+  import("../Components/Dialogs/ConfirmDeleteDialog")
+);
 
 const Groups = () => {
   const chatId = useSearchParams()[0].get("group");
@@ -45,6 +49,10 @@ const Groups = () => {
   };
   const openAddMemberHandler = () => {
     console.log("Add member");
+  };
+  const deleteHandler = () => {
+    console.log("Delete");
+    closeConfirmDeleteHandler();
   };
 
   useEffect(() => {
@@ -123,7 +131,7 @@ const Groups = () => {
         color="error"
         variant="outlined"
         startIcon={<Delete />}
-        onclick={openConfirmDeleteHandler}
+        onClick={openConfirmDeleteHandler}
       >
         Delete Group
       </Button>
@@ -131,7 +139,7 @@ const Groups = () => {
         size="large"
         variant="contained"
         startIcon={<Add />}
-        onclick={openAddMemberHandler}
+        onClick={openAddMemberHandler}
       >
         Add Member
       </Button>
@@ -185,7 +193,15 @@ const Groups = () => {
           </>
         )}
       </Grid>
-      {confirmDeleteDialog && <>scd</>}
+      {confirmDeleteDialog && (
+        <Suspense fallback={<Backdrop open />}>
+          <ConfirmDeleteDialog
+            open={confirmDeleteDialog}
+            handleClose={closeConfirmDeleteHandler}
+            deleteHandler={deleteHandler}
+          />
+        </Suspense>
+      )}
     </Grid>
   );
 };
