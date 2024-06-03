@@ -14,7 +14,7 @@ const AddMemberDialog = ({ addMember, isLoadingAddMember, chatId }) => {
     );
   };
   const addMemberSubmitHandler = () => {
-    console.log();
+    closeHandler();
   };
   const closeHandler = () => {
     setSelectedMembers([]);
