@@ -25,7 +25,11 @@ import { samplechats } from "../../constants/sampleData";
 const ConfirmDeleteDialog = React.lazy(() =>
   import("../Components/Dialogs/ConfirmDeleteDialog")
 );
+const AddMemberDialog = React.lazy(() =>
+  import("../Components/Dialogs/AddMemberDialog")
+);
 
+const isAddMember=true;
 const Groups = () => {
   const chatId = useSearchParams()[0].get("group");
   const navigate = useNavigate();
@@ -193,6 +197,9 @@ const Groups = () => {
           </>
         )}
       </Grid>
+      {
+          isAddMember && <Suspense fallback={<Backdrop open />}><AddMemberDialog /></Suspense>
+      }
       {confirmDeleteDialog && (
         <Suspense fallback={<Backdrop open />}>
           <ConfirmDeleteDialog
