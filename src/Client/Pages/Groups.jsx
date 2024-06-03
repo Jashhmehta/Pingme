@@ -8,14 +8,15 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
 import { samplechats } from "../../constants/sampleData";
 
 const Groups = () => {
-  const chatId = "jcecj";
+  const chatId = useSearchParams()[0].get("group")
   const navigate = useNavigate();
+  console.log(chatId)
   const navigateBack = () => {
     navigate("/");
   };
@@ -63,7 +64,7 @@ const Groups = () => {
 };
 
 const GroupsList = ({ w = "100%", myGroups = [], chatId }) => (
-  <Stack>
+  <Stack width={w}>
     {myGroups.length > 0 ? (
       myGroups.map((group) => (
         <GroupListItem group={group} chatId={chatId} key={group._id} />
@@ -80,8 +81,13 @@ const GroupListItem = ({ group, chatId }) => {
   const { name, avatar, _id } = group;
 
   return (
-    <Link to={`?group=${_id}`}>
-      <Stack>
+    <Link
+      to={`?group=${_id}`}
+      onClick={(e) => {
+        if (chatId === _id) e.preventDefault();
+      }}
+    >
+      <Stack direction={"row"} spacing={"1rem"} alignItems={"center"}>
         <AvatarCard avatar={avatar} />
         <Typography>{name}</Typography>
       </Stack>
