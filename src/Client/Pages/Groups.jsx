@@ -1,22 +1,23 @@
-import { KeyboardBackspace } from "@mui/icons-material";
+import { Done, Edit, KeyboardBackspace } from "@mui/icons-material";
 import {
   Avatar,
   Grid,
   IconButton,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
 import { samplechats } from "../../constants/sampleData";
 
 const Groups = () => {
-  const chatId = useSearchParams()[0].get("group")
+  const chatId = useSearchParams()[0].get("group");
   const navigate = useNavigate();
-  console.log(chatId)
+  const [isEdit, setIsEdit] = useState(false);
   const navigateBack = () => {
     navigate("/");
   };
@@ -40,6 +41,32 @@ const Groups = () => {
     </>
   );
 
+  const GroupName = (
+    <Stack
+      direction={"row"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      spacing={"1rem"}
+      padding={"3rem"}
+    >
+      {isEdit ? (
+        <>
+        <TextField />
+        <IconButton onClick={()=>setIsEdit(false)}>
+          <Done />
+        </IconButton> 
+        </>
+      ) : (
+        <>
+          <Typography variant="h4">Group Name</Typography>
+          <IconButton onClick={() => setIsEdit(true)}>
+            <Edit />
+          </IconButton>
+        </>
+      )}
+    </Stack>
+  );
+
   return (
     <Grid container height={"100vh"}>
       <Grid item sm={4} bgcolor={"bisque"}>
@@ -58,6 +85,7 @@ const Groups = () => {
         }}
       >
         {IconButtons}
+        {GroupName}
       </Grid>
     </Grid>
   );
