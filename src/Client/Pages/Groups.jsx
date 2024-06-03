@@ -30,7 +30,7 @@ const AddMemberDialog = React.lazy(() =>
   import("../Components/Dialogs/AddMemberDialog")
 );
 
-const isAddMember=false;
+const isAddMember = false;
 const Groups = () => {
   const chatId = useSearchParams()[0].get("group");
   const navigate = useNavigate();
@@ -59,10 +59,15 @@ const Groups = () => {
     console.log("Delete");
     closeConfirmDeleteHandler();
   };
+  const removeMemberHandler = (id) => {
+    console.log("Remove member", id);
+  };
 
   useEffect(() => {
-    setGroupName(`Group Name ${chatId}`);
-    setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    if (chatId) {
+      setGroupName(`Group Name ${chatId}`);
+      setGroupNameUpdatedValue(`Group Name ${chatId}`);
+    }
     return () => {
       setGroupName("");
       setGroupNameUpdatedValue("");
@@ -192,23 +197,29 @@ const Groups = () => {
               height={"50vh"}
               overflow={"auto"}
             >
-            {
-              sampleUsers.map((i)=>(
-                <UserItem user={i} isAdded styling={{
-                  boxShadow:"0 0 0.5rem rgba(0,0,0,0.2)",
-                  padding:"1rem 2rem",
-                  borderRadius:"1rem",
-                }}/>
-              ))
-            }
+              {sampleUsers.map((i) => (
+                <UserItem
+                  user={i}
+                  key={i._id}
+                  isAdded
+                  styling={{
+                    boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
+                    padding: "1rem 2rem",
+                    borderRadius: "1rem",
+                  }}
+                  handler={removeMemberHandler}
+                />
+              ))}
             </Stack>
             {ButtonGroup}
           </>
         )}
       </Grid>
-      {
-          isAddMember && <Suspense fallback={<Backdrop open />}><AddMemberDialog /></Suspense>
-      }
+      {isAddMember && (
+        <Suspense fallback={<Backdrop open />}>
+          <AddMemberDialog />
+        </Suspense>
+      )}
       {confirmDeleteDialog && (
         <Suspense fallback={<Backdrop open />}>
           <ConfirmDeleteDialog
