@@ -21,7 +21,8 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
-import { samplechats } from "../../constants/sampleData";
+import { samplechats, sampleUsers } from "../../constants/sampleData";
+import UserItem from "../Components/Shared/UserItem";
 const ConfirmDeleteDialog = React.lazy(() =>
   import("../Components/Dialogs/ConfirmDeleteDialog")
 );
@@ -29,7 +30,7 @@ const AddMemberDialog = React.lazy(() =>
   import("../Components/Dialogs/AddMemberDialog")
 );
 
-const isAddMember=true;
+const isAddMember=false;
 const Groups = () => {
   const chatId = useSearchParams()[0].get("group");
   const navigate = useNavigate();
@@ -191,7 +192,15 @@ const Groups = () => {
               height={"50vh"}
               overflow={"auto"}
             >
-              {/**Members */}
+            {
+              sampleUsers.map((i)=>(
+                <UserItem user={i} isAdded styling={{
+                  boxShadow:"0 0 0.5rem rgba(0,0,0,0.2)",
+                  padding:"1rem 2rem",
+                  borderRadius:"1rem",
+                }}/>
+              ))
+            }
             </Stack>
             {ButtonGroup}
           </>
