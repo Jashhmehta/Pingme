@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./Client/Pages/Login";
 import ProtectRoute from "./Client/Components/Auth/ProtectRoute";
 import { LayoutLoader } from "./Client/Components/Layout/Loaders";
+import AdminLogin from "./Client/Pages/Admin/AdminLogin";
 
 const Home = lazy(() => import("./Client/Pages/Home"));
 const Chat = lazy(() => import("./Client/Pages/Chat"));
@@ -29,6 +30,7 @@ function App() {
               </ProtectRoute>
             }
           />
+          <Route path="/admin" element={<AdminLogin />} />
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
