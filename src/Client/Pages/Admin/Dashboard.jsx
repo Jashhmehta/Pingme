@@ -13,6 +13,8 @@ import {
   CurveButton,
   SearchField,
 } from "../../Components/Styles/StyledComponents";
+import { Line } from "react-chartjs-2";
+import { DoughnutChart, LineChart } from "../../Components/Specific/Chart";
 
 const Dashboard = () => {
   const Appbar = (
@@ -74,21 +76,21 @@ const Dashboard = () => {
       <Container component={"main"}>
         {Appbar}
         {Widgets}
-        <Stack direction={"row"} spacing={"2rem"} flexWrap={"wrap"}>
+        <Stack direction={"row"} spacing={"2rem"}>
           <Paper
             elevation={3}
             sx={{
               padding: "2rem 3.5rem",
               borderRadius: "1rem",
               width: "100%",
-              maxWidth: "45rem",
+              maxWidth: "70rem",
               height: "25rem",
             }}
           >
             <Typography margin={"2rem 0"} variant="h4">
               Last Messages
             </Typography>
-            {" chat"}
+           <LineChart />
           </Paper>
           <Paper
             elevation={3}
@@ -104,20 +106,8 @@ const Dashboard = () => {
               height: "25rem",
             }}
           >
-            {"Doughnut Chart"}
-            <Stack
-              position={"absolute"}
-              direction={"row"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              spacing={"0.5rem"}
-              width={"100%"}
-              height={"100%"}
-            >
-              <Group />
-              <Typography>Vs</Typography>
-              <Person />
-            </Stack>
+            <DoughnutChart />
+       
           </Paper>
         </Stack>
       </Container>
@@ -131,7 +121,7 @@ const Widget = ({ title, value, Icon }) => (
     sx={{
       padding: "1rem",
       margin: "2rem 0",
-      borderRadius: "1rem",
+      borderRadius: "1.5rem",
       width: "20rem",
       textAlign: "center",
     }}
@@ -151,7 +141,7 @@ const Widget = ({ title, value, Icon }) => (
       >
         {value}
       </Typography>
-      <Stack direction="row" alignItems="center" spacing="0.5rem">
+      <Stack direction="row" alignItems="center" spacing="1rem">
         {Icon}
         <Typography variant="h6">{title}</Typography>
       </Stack>

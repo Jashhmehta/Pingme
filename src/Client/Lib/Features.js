@@ -18,4 +18,7 @@ const fileFormat = (url = "") => {
 };
 
 const transformImage=(url="", width=100)=>url;
-export { fileFormat, transformImage };
+const getLast7days=()=>{
+
+};
+export { fileFormat, transformImage, getLast7days };
