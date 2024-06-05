@@ -1,6 +1,5 @@
 import React from "react";
 import AdminLayout from "../../Components/Layout/AdminLayout";
-
 const MessageManagement = () => {
   return (
     <AdminLayout>
