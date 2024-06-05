@@ -17,7 +17,7 @@ import {
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link as LinkComponent, useLocation } from "react-router-dom";
+import { Link as LinkComponent, Navigate, useLocation } from "react-router-dom";
 
 const Link = styled(LinkComponent)`
   text-decoration: none;
@@ -71,10 +71,7 @@ const Sidebar = ({ w = "100%" }) => {
             </Stack>
           </Link>
         ))}
-        <Link onClick={logoutHandler}       
-          
-          
-        >
+        <Link onClick={logoutHandler}>
           <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
             {<ExitToApp />}
             <Typography fontSize={"1.2rem"}>Logout</Typography>
@@ -84,10 +81,12 @@ const Sidebar = ({ w = "100%" }) => {
     </Stack>
   );
 };
+const isAdmin=true;
 const AdminLayout = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
   const handleMobile = () => setIsMobile(!isMobile);
   const handleClose = () => setIsMobile(false);
+  if(!isAdmin) return <Navigate to="/admin"/>
 
   return (
     <Grid container minHeight={"100vh"}>
