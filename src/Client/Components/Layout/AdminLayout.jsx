@@ -35,8 +35,8 @@ const adminTabs = [
     path: "/admin/dashboard",
     icon: <Dashboard />,
   },
-  { name: "User", path: "/admin/user-management", icon: <ManageAccounts /> },
-  { name: "Chat", path: "/admin/chat-management", icon: <Group /> },
+  { name: "User", path: "/admin/users", icon: <ManageAccounts /> },
+  { name: "Chat", path: "/admin/chats", icon: <Group /> },
   { name: "Message", path: "/admin/messages", icon: <Message /> },
 ];
 
@@ -81,12 +81,12 @@ const Sidebar = ({ w = "100%" }) => {
     </Stack>
   );
 };
-const isAdmin=true;
+const isAdmin = true;
 const AdminLayout = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
   const handleMobile = () => setIsMobile(!isMobile);
   const handleClose = () => setIsMobile(false);
-  if(!isAdmin) return <Navigate to="/admin"/>
+  if (!isAdmin) return <Navigate to="/admin" />;
 
   return (
     <Grid container minHeight={"100vh"}>
