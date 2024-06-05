@@ -4,6 +4,7 @@ import { Login } from "./Client/Pages/Login";
 import ProtectRoute from "./Client/Components/Auth/ProtectRoute";
 import { LayoutLoader } from "./Client/Components/Layout/Loaders";
 import AdminLogin from "./Client/Pages/Admin/AdminLogin";
+import Dashboard from "./Client/Pages/Admin/Dashboard";
 
 const Home = lazy(() => import("./Client/Pages/Home"));
 const Chat = lazy(() => import("./Client/Pages/Chat"));
@@ -31,6 +32,7 @@ function App() {
             }
           />
           <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
