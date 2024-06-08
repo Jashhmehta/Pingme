@@ -1,4 +1,4 @@
-import { Schema, Types, model, models } from "mongoose";
+import mongoose,{ Schema, model, Types } from "mongoose";
 const schema = new Schema(
   {
     content: String,
@@ -31,4 +31,4 @@ const schema = new Schema(
   }
 );
 
-export const Message = models.Message || model("Message", schema);
+export const Message = mongoose.models.Message || model("Message", schema);
