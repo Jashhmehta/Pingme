@@ -1,14 +1,18 @@
 import { compare } from "bcrypt";
 import { User } from "../models/user.js";
 import { sendToken } from "../utils/features.js";
+
+//Login user and save the token in cookie
 const login = async (req, res, next) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username }).select("+password");
-  if (!user) return next(new Error("Invalid Username"))
+  if (!user) return next(new Error("Invalid Username"));
   const isMatch = await compare(password, user.password);
-  if (!isMatch) return next(new Error("Invalid Password"))
+  if (!isMatch) return next(new Error("Invalid Password"));
   sendToken(res, user, 200, `Welcome Back, ${user.name}`);
 };
+
+
 const register = async (req, res) => {
   const { name, username, password } = req.body;
 
@@ -24,4 +28,13 @@ const register = async (req, res) => {
   });
   sendToken(res, user, 201, "User Created");
 };
-export { login, register };
+
+const getMyProfile=(req,res)=>{
+    res.status(200).json({
+        success:true,
+        data:req.user,
+    });
+   
+}
+
+export { login, register, getMyProfile };
