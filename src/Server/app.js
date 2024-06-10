@@ -8,6 +8,8 @@ dotenv.config({
 const mongoURI=process.env.MONGO_URI
 connectDB(mongoURI);
 const app = express();
+app.use(express.json())
+
 const port=process.env.PORT || 3001
 
 app.use("/user", userRoute);

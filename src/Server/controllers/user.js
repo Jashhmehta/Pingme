@@ -1,19 +1,23 @@
 import {User} from '../models/user.js'
+import { sendToken } from '../utils/features.js';
 const login=(req,res)=>{
     res.send("Hello World");
 }
 const register=async(req,res)=>{
+    const {name,username,password }=req.body;
+
     const avatar={
-        public_id:"",
-        url:"",
+        public_id:"1",
+        url:"xcw",
     }
-    await User.create({
-        name:"",
-        username:"",
-        password:"",
-        avatar
+    const user=await User.create({
+        name,
+        username,
+        password,
+        avatar,
+
         
     })
-    res.status(201).json({message:"User created successfully"});
+    sendToken(res,user,201,"User Created");
 }
 export {login, register};
