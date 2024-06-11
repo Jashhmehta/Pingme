@@ -37,4 +37,8 @@ const sendToken = (res, user, code, message) => {
 const emitEvent = (req,event,users,data)=>{
  console.log("Emmiting event", event)
 }
-export { connectDB, sendToken, cookieOptions, emitEvent };
+const getOtherMembers=(members, userId)=>{
+  members.find((member)=>member._id.toString() !==userId.toString());
+
+  }
+export { connectDB, sendToken, cookieOptions, emitEvent, getOtherMembers };
