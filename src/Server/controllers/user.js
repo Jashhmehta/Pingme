@@ -47,4 +47,13 @@ const logout = async (req, res) => {
   });
 };
 
-export { login, register, getMyProfile, logout };
+
+const searchUser = async (req, res) => {
+  const {name} = req.query.name;
+  
+  return res.status(200).json({
+    success: true,
+    message:name,
+  });
+};
+export { login, register, getMyProfile, logout, searchUser };
