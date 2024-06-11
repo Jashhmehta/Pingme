@@ -1,19 +1,12 @@
+import { ErrorHandler } from "../utils/utility.js";
+import { TryCatch } from "./error.js";
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.js";
-
-const isAuthenticated = async (req, res, next) => {
-  console.log("Cookies received:", req.cookies); // Add this line for debugging
-
+const isAuthenticated = TryCatch(async (req, res, next) => {
   const token = req.cookies["Pingme-Token"];
-  if (!token) return next(new Error("Please login to access this route"));
-
-  try {
-    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decodedData._id);
-    next();
-  } catch (error) {
-    next(new Error("Invalid Token"));
-  }
-};
-
+  if (!token)
+    return next(new ErrorHandler("Please login to access this route", 401));
+  const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = decodedData._id;
+  next();
+});
 export { isAuthenticated };

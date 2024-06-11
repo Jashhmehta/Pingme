@@ -4,12 +4,16 @@ import { connectDB } from "./utils/features.js";
 import dotenv from "dotenv";
 import { errorMiddleware } from "./middelwares/error.js";
 import cookieParser from "cookie-parser";
+import cors from "cors"
 dotenv.config({
   path: "src/server/.env",
 });
 const mongoURI = process.env.MONGO_URI;
 connectDB(mongoURI);
 const app = express();
+app.use(cors({
+  credentials: true,
+}))
 
 app.use(express.json());
 app.use(cookieParser());

@@ -8,7 +8,7 @@ app.post("/login", login);
 app.post("/register", singleAvatar, register);
 
 //After here user must be logged in to access the routes
-
-app.get("/profile",isAuthenticated ,getMyProfile)
+app.use(isAuthenticated)
+app.get("/profile", getMyProfile);
 
 export default app;
