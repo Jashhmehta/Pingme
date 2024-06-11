@@ -75,7 +75,7 @@ const getMyGroups = TryCatch(async (req, res, next) => {
 const addMembers = TryCatch(async (req, res, next) => {
   const { chatId, members } = req.body;
   const chat = await Chat.findById(chatId);
-  if (!members || members.length <1)
+  if (!members || members.length < 1)
     return next(new ErrorHandler("Please provide members", 400));
   if (!chat) return next(new ErrorHandler("Chat not found", 404));
   if (!chat.groupChat)
@@ -84,7 +84,10 @@ const addMembers = TryCatch(async (req, res, next) => {
     return next(new ErrorHandler("You are not allowed to add members", 403));
   const allNewMembersPromise = members.map((i) => User.findById(i, "name"));
   const allNewMembers = await Promise.all(allNewMembersPromise);
-  chat.members.push(...allNewMembers.map((i) => i._id));
+  const uniquemembers = allNewMembers
+    .filter((i) => !chat.members.includes(i._id.toString()))
+    .map((i) => i._id);
+  chat.members.push(...uniquemembers);
   if (chat.members.length > 100)
     return next(new ErrorHandler("Group members limit reached", 400));
   await chat.save();
