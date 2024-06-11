@@ -1,6 +1,6 @@
 import { compare } from "bcrypt";
 import { User } from "../models/user.js";
-import { sendToken } from "../utils/features.js";
+import { cookieOptions, sendToken } from "../utils/features.js";
 import { TryCatch } from "../middelwares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 
@@ -40,4 +40,11 @@ const getMyProfile = async (req, res) => {
   });
 };
 
-export { login, register, getMyProfile };
+const logout = async (req, res) => {
+  return res.status(200).cookie("pingme-token", "", {...cookieOptions, maxAge:0}).json({
+    success: true,
+    message:"Logged out successfully"
+  });
+};
+
+export { login, register, getMyProfile, logout };
