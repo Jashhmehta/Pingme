@@ -1,7 +1,7 @@
 
 ->React helmet 
 This library helps our react apps to become seo friendly, it bascially help us add dynamic meta tags so
-that our website are discovered more efficiently on web.
+that our website are discovered more efficiently on web..
 Tutorial: (https://youtu.be/OGoPhwK_P_Q?si=HbvX0FYkXYInU4Pl)
 
 ->Lazy Loading / Code splitting
