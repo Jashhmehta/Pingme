@@ -169,6 +169,13 @@ const leaveGroup = TryCatch(async (req, res, next) => {
   });
 });
 
+const sendAttachments= TryCatch(async(req,res,next)=>{
+  return res.status(200).json({
+    success:true,
+    message:"Attachments sent successfully"
+  })
+})
+
 export {
   newGroupChat,
   getMyChats,
@@ -176,4 +183,5 @@ export {
   addMembers,
   removeMembers,
   leaveGroup,
+  sendAttachments
 };
