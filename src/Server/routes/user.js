@@ -21,6 +21,6 @@ app.use(isAuthenticated);
 app.get("/profile", getMyProfile);
 app.get("/logout", logout);
 app.get("/search", searchUser);
-app.get("/sendrequest", sendFriendRequest)
+app.put("/sendrequest", sendFriendRequest)
 
 export default app;
