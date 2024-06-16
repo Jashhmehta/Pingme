@@ -10,7 +10,11 @@ import cors from "cors";
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
 import { errorMiddleware } from "./middelwares/error.js";
-import { createUser } from "./seeders/user.js";
+import {
+  createMessagesInChat,
+  createSingleChats,
+  createUser,
+} from "./seeders/user.js";
 
 dotenv.config({
   path: "src/server/.env",
