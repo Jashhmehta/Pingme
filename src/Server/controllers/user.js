@@ -101,7 +101,7 @@ const acceptFriendRequest = TryCatch(async (req, res, next) => {
     .populate("sender", "name")
     .populate("receiver", "name");
   if (!request) return next(new ErrorHandler("Request not found", 404));
-  if (request.receiver.toString() !== req.user.toString())
+  if (request.receiver._id.toString() !== req.user.toString())
     return next(new ErrorHandler("Unauthorized", 401));
   if (!accept) {
     await Request.deleteOne();
