@@ -5,6 +5,7 @@ import {
   logout,
   register,
   searchUser,
+  sendFriendRequest,
 } from "../controllers/user.js";
 import { singleAvatar } from "../middelwares/multer.js";
 import { isAuthenticated } from "../middelwares/auth.js";
@@ -20,5 +21,6 @@ app.use(isAuthenticated);
 app.get("/profile", getMyProfile);
 app.get("/logout", logout);
 app.get("/search", searchUser);
+app.get("/sendrequest", sendFriendRequest)
 
 export default app;
