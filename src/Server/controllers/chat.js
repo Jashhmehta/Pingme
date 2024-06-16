@@ -294,12 +294,17 @@ const deleteChat = TryCatch(async (req, res, next) => {
     chat.deleteOne(),
     Message.deleteMany({ chat: chatId }),
   ]);
-  emitEvent(req,REFETCH_CHATS, members);
+  emitEvent(req, REFETCH_CHATS, members);
   return res.status(200).json({
-    success:true,
-    message:"Chat deleted successfully"
-  })
+    success: true,
+    message: "Chat deleted successfully",
+  });
 });
+
+const getMessages=TryCatch(async(req,res,next)=>{
+
+})
+
 export {
   newGroupChat,
   getMyChats,
@@ -311,4 +316,5 @@ export {
   getChatDetails,
   renameGroup,
   deleteChat,
+  getMessages
 };
