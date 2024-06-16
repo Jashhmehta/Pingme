@@ -41,4 +41,8 @@ const getOtherMembers=(members, userId)=>{
   members.find((member)=>member._id.toString() !==userId.toString());
 
   }
-export { connectDB, sendToken, cookieOptions, emitEvent, getOtherMembers };
+
+  const deleteFilesFromCloudinary=async(public_ids)=>{
+
+  }
+export { connectDB, sendToken, cookieOptions, emitEvent, getOtherMembers, deleteFilesFromCloudinary };
