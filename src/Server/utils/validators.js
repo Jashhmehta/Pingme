@@ -1,4 +1,4 @@
-import { body, validationResult, check } from "express-validator";
+import { body, validationResult, check, param } from "express-validator";
 import { ErrorHandler } from "./utility.js";
 
 const registerValidator = () => [
@@ -23,21 +23,32 @@ const newGroupValidator = () => [
 ];
 
 const addMemberValidator = () => [
-    body("chatId", "Please Enter chatId").notEmpty(),
-    body("members")
-      .notEmpty()
-      .withMessage("Please Enter Members")
-      .isArray({ min: 1, max: 50 })
-      .withMessage("Members must be between 1-50"),
-  ];
+  body("chatId", "Please Enter chatId").notEmpty(),
+  body("members")
+    .notEmpty()
+    .withMessage("Please Enter Members")
+    .isArray({ min: 1, max: 50 })
+    .withMessage("Members must be between 1-50"),
+];
 
-  const removeMemberValidator = () => [
-    body("chatId", "Please Enter chatId").notEmpty(),
-    body("userId", "Please Enter userId").notEmpty(),
-  
-  ];
+const removeMemberValidator = () => [
+  body("chatId", "Please Enter chatId").notEmpty(),
+  body("userId", "Please Enter userId").notEmpty(),
+];
 
-  
+const leaveGroupValidator = () => [
+  param("id", "Please enter chat id").notEmpty(),
+];
+
+const sendAttachmentsValidator = () => [
+  body("chatId", "Please enter chat Id").notEmpty(),
+  check("files")
+    .notEmpty()
+    .withMessage("Please upload attachments")
+    .isArray({ min: 1, max: 10 })
+    .withMessage("Attachments must be between 1-10"),
+];
+
 const validate = (req, res, next) => {
   const errors = validationResult(req);
   const errorMessages = errors
@@ -48,4 +59,13 @@ const validate = (req, res, next) => {
   if (errors.isEmpty()) return next();
   else next(new ErrorHandler(errorMessages, 400));
 };
-export { registerValidator, validate, loginValidator, newGroupValidator, addMemberValidator, removeMemberValidator };
+export {
+  registerValidator,
+  validate,
+  loginValidator,
+  newGroupValidator,
+  addMemberValidator,
+  removeMemberValidator,
+  leaveGroupValidator,
+  sendAttachmentsValidator,
+};
