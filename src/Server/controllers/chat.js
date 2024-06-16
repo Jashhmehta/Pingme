@@ -215,6 +215,10 @@ const sendAttachments = TryCatch(async (req, res, next) => {
   });
 });
 
+const getChatDetails= TryCatch(async(req,res,next)=>{
+
+})
+
 export {
   newGroupChat,
   getMyChats,
@@ -223,4 +227,5 @@ export {
   removeMembers,
   leaveGroup,
   sendAttachments,
+  getChatDetails
 };
