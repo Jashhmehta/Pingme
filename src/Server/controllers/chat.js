@@ -260,6 +260,10 @@ const renameGroup = TryCatch(async (req, res, next) => {
     message: "Group renamed successfully",
   });
 });
+
+const deleteChat= TryCatch(async(req,res,next)=>{
+
+});
 export {
   newGroupChat,
   getMyChats,
@@ -270,4 +274,5 @@ export {
   sendAttachments,
   getChatDetails,
   renameGroup,
+  deleteChat
 };
