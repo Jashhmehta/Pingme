@@ -3,6 +3,7 @@ import { User } from "../models/user.js";
 import { cookieOptions, sendToken } from "../utils/features.js";
 import { TryCatch } from "../middelwares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
+import { Chat } from "../models/chat.js";
 
 //Login user and save the token in cookie
 const login = async (req, res, next) => {
@@ -41,19 +42,34 @@ const getMyProfile = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  return res.status(200).cookie("pingme-token", "", {...cookieOptions, maxAge:0}).json({
-    success: true,
-    message:"Logged out successfully"
-  });
+  return res
+    .status(200)
+    .cookie("pingme-token", "", { ...cookieOptions, maxAge: 0 })
+    .json({
+      success: true,
+      message: "Logged out successfully",
+    });
 };
 
-
 const searchUser = async (req, res) => {
-  const {name} = req.query.name;
-  
+  const { name = "" } = req.query;
+  const myChats = await Chat.find({
+    groupChat: false,
+    members: req.user,
+  });
+  const allUsersFromMyChats = myChats.map((chat) => chat.members).flat();
+  const allUsersExceptMeAndFriends = await User.find({
+    _id: { $nin: allUsersFromMyChats },
+    name: { $regex: name, $options: "i" },
+  });
+  const users = allUsersExceptMeAndFriends.map(({ _id, name, avatar }) => ({
+    _id,
+    name,
+    avatar: avatar.url,
+  }));
   return res.status(200).json({
     success: true,
-    message:name,
+    message: name,
   });
 };
 export { login, register, getMyProfile, logout, searchUser };
