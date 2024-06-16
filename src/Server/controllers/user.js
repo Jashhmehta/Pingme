@@ -94,4 +94,8 @@ const sendFriendRequest = TryCatch(async (req, res, next) => {
     message: "Friend request sent successfully",
   });
 });
-export { login, register, getMyProfile, logout, searchUser, sendFriendRequest };
+
+const acceptFriendRequest=TryCatch(async(req,res,next)=>{
+
+})
+export { login, register, getMyProfile, logout, searchUser, sendFriendRequest, acceptFriendRequest };

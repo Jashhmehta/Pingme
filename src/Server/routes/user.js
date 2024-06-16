@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  acceptFriendRequest,
   getMyProfile,
   login,
   logout,
@@ -21,6 +22,7 @@ app.use(isAuthenticated);
 app.get("/profile", getMyProfile);
 app.get("/logout", logout);
 app.get("/search", searchUser);
-app.put("/sendrequest", sendFriendRequest)
+app.put("/sendrequest", sendFriendRequest);
+app.put("/accept-request", acceptFriendRequest);
 
 export default app;
