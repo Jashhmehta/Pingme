@@ -2,9 +2,14 @@ import { TryCatch } from "../middelwares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { Chat } from "../models/chat.js";
 import { User } from "../models/user.js";
-import {Message} from "../models/message.js"
+import { Message } from "../models/message.js";
 import { emitEvent, getOtherMembers } from "../utils/features.js";
-import { ALERT, NEW_ATTACMENT, NEW_MESSAGE_ALERT, REFETCH_CHATS } from "../constants/events.js";
+import {
+  ALERT,
+  NEW_ATTACMENT,
+  NEW_MESSAGE_ALERT,
+  REFETCH_CHATS,
+} from "../constants/events.js";
 import { Preview } from "@mui/icons-material";
 const newGroupChat = TryCatch(async (req, res, next) => {
   const { name, members } = req.body;
@@ -172,37 +177,41 @@ const leaveGroup = TryCatch(async (req, res, next) => {
 
 const sendAttachments = TryCatch(async (req, res, next) => {
   const { chatId } = req.body;
-  const [chat, me] = await Promise.all([
+  const [chats, me] = await Promise.all([
     Chat.findById(chatId),
     User.findById(req.user, "name"),
   ]);
 
-  if (!chat) return next(new ErrorHandler("Chat not found", 404));
+  if (!chats) return next(new ErrorHandler("Chat not found", 404));
   const files = req.file || [];
   if (files.length < 1)
     return next(new ErrorHandler("Please provide attachments", 400));
   const attachments = [];
-  const messageForRealTime = {
+  const messageForDB = {
     content: "",
     attachments,
+    sender: me._id,
+    chat: chatId,
+  };
+  emitEvent(req, NEW_ATTACMENT, chats.members, {
+    message: messageForRealTime,
+    chatId,
+  });
+  const messageForRealTime = {
+    ...messageForDB,
     sender: {
       _id: me._id,
       name: me.name,
     },
-    chatId,
   };
-  const messageForDB = { content: "", attachments, sender: me._id, chatId };
-  emitEvent(req,NEW_ATTACMENT, chat.members, {
-    message: messageForRealTime,
+
+  const message = await Message.create(messageForDB);
+  emitEvent(req, NEW_MESSAGE_ALERT, chats.members, {
     chatId,
-  })
-  const message= await Message.create(messageForDB)
-  emitEvent(req,NEW_MESSAGE_ALERT,chat.members,{
-    chatId
-  })
+  });
   return res.status(200).json({
     success: true,
-    message: message
+    message: message,
   });
 });
 
