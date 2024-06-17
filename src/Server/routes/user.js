@@ -1,6 +1,7 @@
 import express from "express";
 import {
   acceptFriendRequest,
+  getMyFriends,
   getMyProfile,
   getNotifications,
   login,
@@ -30,5 +31,7 @@ app.get("/search", searchUser);
 app.put("/sendrequest", sendFriendRequest);
 app.put("/accept-request", acceptFriendRequest);
 app.get("/notifications", getNotifications);
+app.get("/friends", getMyFriends)
+
 
 export default app;

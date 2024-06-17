@@ -146,6 +146,10 @@ const getNotifications = TryCatch(async (req, res, next) => {
   });
 });
 
+const getMyFriends=TryCatch(async(req,res,next)=>{
+
+})
+
 export {
   login,
   register,
@@ -155,4 +159,5 @@ export {
   sendFriendRequest,
   acceptFriendRequest,
   getNotifications,
+  getMyFriends
 };
