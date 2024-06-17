@@ -34,15 +34,19 @@ const sendToken = (res, user, code, message) => {
   });
 };
 
-const emitEvent = (req,event,users,data)=>{
- console.log("Emmiting event", event)
-}
-const getOtherMembers=(members, userId)=>{
-  members.find((member)=>member._id.toString() !==userId.toString());
+const emitEvent = (req, event, users, data) => {
+  console.log("Emmiting event", event);
+};
+const getOtherMembers = (members, userId) => {
+  return members.find((member) => member._id.toString() !== userId.toString());
+};
 
-  }
-
-  const deleteFilesFromCloudinary=async(public_ids)=>{
-
-  }
-export { connectDB, sendToken, cookieOptions, emitEvent, getOtherMembers, deleteFilesFromCloudinary };
+const deleteFilesFromCloudinary = async (public_ids) => {};
+export {
+  connectDB,
+  sendToken,
+  cookieOptions,
+  emitEvent,
+  getOtherMembers,
+  deleteFilesFromCloudinary,
+};
