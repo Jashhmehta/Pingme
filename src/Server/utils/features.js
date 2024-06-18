@@ -1,6 +1,7 @@
 import mongoose, { connect } from "mongoose";
 import jwt from "jsonwebtoken";
 import { compareSync } from "bcrypt";
+import { userSocketIDs } from "../app.js";
 
 const cookieOptions = {
   maxAge: 15 * 24 * 60 * 60 * 1000,
@@ -39,6 +40,10 @@ const emitEvent = (req, event, users, data) => {
 };
 const getOtherMembers = (members, userId) => {
   return members.find((member) => member._id.toString() !== userId.toString());
+};
+export const getSockets = (users = []) => {
+  const sockets = users.map((user) => userSocketIDs.get(user._id.toString()));
+  return sockets;
 };
 
 const deleteFilesFromCloudinary = async (public_ids) => {};

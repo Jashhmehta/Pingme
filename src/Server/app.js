@@ -1,6 +1,6 @@
 import express from "express";
 
-import { connectDB } from "./utils/features.js";
+import { connectDB, getSockets } from "./utils/features.js";
 
 import dotenv from "dotenv";
 
@@ -13,7 +13,8 @@ import { v4 as uuid } from "uuid";
 import { errorMiddleware } from "./middelwares/error.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
-import { NEW_MESSAGE } from "./constants/events.js";
+import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
+import { Message } from "./models/message.js";
 
 dotenv.config({
   path: "src/server/.env",
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(cookieParser());
 const port = process.env.PORT || 3001;
 export const env_mode = process.env.NODE_ENV.trim() || "PRODUCTION";
+export const userSocketIDs = new Map();
 app.use("/user", userRoute);
 app.use("/chat", chatRoute);
 
@@ -44,7 +46,9 @@ io.on("connection", (socket) => {
     _id: "1",
     name: "Jash",
   };
+  userSocketIDs.set(user._id.toString(), socket.id);
   console.log("User connected", socket.id);
+  console.log("User Socket IDs", userSocketIDs);
 
   socket.on(NEW_MESSAGE, async ({ chatId, members, message }) => {
     const messageForRealTime = {
@@ -57,11 +61,29 @@ io.on("connection", (socket) => {
       chat: chatId,
       createdAt: new Date().toISOString(),
     };
+    const messageForDB = {
+      content: message,
+      sender: user._id,
+      chat: chatId,
+    };
+    const usersSocket = getSockets(members);
+    const membersSocket = getSockets(members);
+    io.to(membersSocket).emit(NEW_MESSAGE, {
+      chatId,
+      message: messageForRealTime,
+    });
+    io.to(membersSocket).emit(NEW_MESSAGE_ALERT, { chatId });
+    try {
+      await Message.create(messageForDB);
+    } catch (error) {
+      console.log(error);
+    }
     console.log("New Message", messageForRealTime);
   });
 
   socket.on("disconnect", () => {
     console.log("User Disconnected");
+    userSocketIDs.delete(user._id.toString());
   });
 });
 app.use(errorMiddleware);
