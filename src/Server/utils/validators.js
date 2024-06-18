@@ -1,11 +1,10 @@
-import { body, validationResult, check, param } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import { ErrorHandler } from "./utility.js";
 
 const registerValidator = () => [
   body("name", "Please Enter Name").notEmpty(),
   body("username", "Please Enter username").notEmpty(),
   body("password", "Please Enter Password").notEmpty(),
-  check("avatar", "Please uxpload avatar").notEmpty(),
 ];
 
 const loginValidator = () => [
@@ -42,11 +41,6 @@ const leaveGroupValidator = () => [
 
 const sendAttachmentsValidator = () => [
   body("chatId", "Please enter chat Id").notEmpty(),
-  check("files")
-    .notEmpty()
-    .withMessage("Please upload attachments")
-    .isArray({ min: 1, max: 10 })
-    .withMessage("Attachments must be between 1-10"),
 ];
 
 const validate = (req, res, next) => {
@@ -60,12 +54,12 @@ const validate = (req, res, next) => {
   else next(new ErrorHandler(errorMessages, 400));
 };
 export {
-  registerValidator,
-  validate,
+  addMemberValidator,
+  leaveGroupValidator,
   loginValidator,
   newGroupValidator,
-  addMemberValidator,
+  registerValidator,
   removeMemberValidator,
-  leaveGroupValidator,
   sendAttachmentsValidator,
+  validate,
 };
