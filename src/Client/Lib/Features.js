@@ -1,16 +1,16 @@
 const fileFormat = (url = "") => {
   const fileExtension = url.split(".").pop();
   if (
-    fileExtension == "mp4" ||
-    fileExtension == "webm" ||
-    fileExtension == "ogg"
+    fileExtension === "mp4" ||
+    fileExtension === "webm" ||
+    fileExtension === "ogg"
   )
     return "video";
-  if (fileExtension == "mp3" || fileExtension == "wav") return "audio";
+  if (fileExtension === "mp3" || fileExtension === "wav") return "audio";
   if (
-    fileExtension == "png" ||
-    fileExtension == "jpeg" ||
-    fileExtension == "jpg" ||
+    fileExtension === "png" ||
+    fileExtension === "jpeg" ||
+    fileExtension === "jpg" ||
     fileExtension === "gif"
   )
     return "image";

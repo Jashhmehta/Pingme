@@ -1,22 +1,22 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login } from "./Client/Pages/Login";
-import ProtectRoute from "./Client/Components/Auth/ProtectRoute";
-import { LayoutLoader } from "./Client/Components/Layout/Loaders";
-const Home = lazy(() => import("./Client/Pages/Home"));
-const Chat = lazy(() => import("./Client/Pages/Chat"));
-const Groups = lazy(() => import("./Client/Pages/Groups"));
-const NotFound = lazy(() => import("./Client/Pages/NotFound"));
-const Dashboard = lazy(() => import("./Client/Pages/Admin/Dashboard"));
-const AdminLogin = lazy(() => import("./Client/Pages/Admin/AdminLogin"));
+import { Login } from "./Client/Pages/Login.jsx";
+import ProtectRoute from "./Client/Components/Auth/ProtectRoute.jsx";
+import { LayoutLoader } from "./Client/Components/Layout/Loaders.jsx";
+const Home = lazy(() => import("./Client/Pages/Home.jsx"));
+const Chat = lazy(() => import("./Client/Pages/Chat.jsx"));
+const Groups = lazy(() => import("./Client/Pages/Groups.jsx"));
+const NotFound = lazy(() => import("./Client/Pages/NotFound.jsx"));
+const Dashboard = lazy(() => import("./Client/Pages/Admin/Dashboard.jsx"));
+const AdminLogin = lazy(() => import("./Client/Pages/Admin/AdminLogin.jsx"));
 const UserManagement = lazy(() =>
-  import("./Client/Pages/Admin/UserManagement")
+  import("./Client/Pages/Admin/UserManagement.jsx")
 );
 const ChatManagement = lazy(() =>
-  import("./Client/Pages/Admin/ChatManagement")
+  import("./Client/Pages/Admin/ChatManagement.jsx")
 );
 const MessageManagement = lazy(() =>
-  import("./Client/Pages/Admin/MessageManagement")
+  import("./Client/Pages/Admin/MessageManagement.jsx")
 );
 
 let user = true;
