@@ -25,8 +25,8 @@ const login = async (req, res, next) => {
 //Register a new user
 const register = TryCatch(async (req, res, next) => {
   const { name, username, password } = req.body;
-  const file=req.file
-  if(!file) return next(new ErrorHandler("Please Upload Avatar"))
+  const file = req.file;
+  if (!file) return next(new ErrorHandler("Please Upload Avatar"));
 
   const avatar = {
     public_id: "1",

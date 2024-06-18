@@ -37,8 +37,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node src/server/app.js",
-    "dev": "nodemon src/server/app.js",
+    "start": "SET NODE_ENV=PRODUCTION && node src/server/app.js",
+    "dev": "SET NODE_ENV=DEVELOPMENT && nodemon src/server/app.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
