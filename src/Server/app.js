@@ -27,6 +27,7 @@ const server = createServer(app);
 const io = new Server(server, {});
 app.use(
   cors({
+    origin:"http://localhost:3000",
     credentials: true,
   })
 );
@@ -35,8 +36,8 @@ app.use(cookieParser());
 const port = process.env.PORT || 3001;
 export const env_mode = process.env.NODE_ENV.trim() || "PRODUCTION";
 export const userSocketIDs = new Map();
-app.use("/user", userRoute);
-app.use("/chat", chatRoute);
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/chat", chatRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
