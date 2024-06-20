@@ -25,7 +25,7 @@ export const Login = () => {
   const username = useInputValidation("", usernameValidator);
   const password = useStrongPassword();
   const avatar = useFileHandler("single");
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const handleLogin = async (e) => {
     e.preventDefault();
     const config = {
@@ -43,7 +43,7 @@ export const Login = () => {
         },
         config
       );
-      dispath(userExists(true));
+      dispatch(userExists(true));
       toast.success(data.message);
     } catch (error) {
       const errorMessage =
@@ -74,7 +74,7 @@ export const Login = () => {
           },
         }
       );
-      dispath(userExists(true));
+      dispatch(userExists(true));
       toast.success(data.message);
     } catch (error) {
       const errorMessage =

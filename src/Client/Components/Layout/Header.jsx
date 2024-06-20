@@ -1,3 +1,4 @@
+import React, { startTransition, Suspense, useState } from "react";
 import {
   AppBar,
   Backdrop,
@@ -7,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { startTransition, Suspense, useState } from "react";
 import {
   Add as AddIcon,
   Group as GroupIcon,
@@ -18,6 +18,12 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import NewGroup from "../Specific/NewGroup";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { userNotExists } from "../../Redux/reducers/auth";
+
+// Lazy loading components
 const SearchDialog = React.lazy(() => import("../Specific/Search"));
 const NotificationDialog = React.lazy(() =>
   import("../Specific/Notifications")
@@ -25,6 +31,7 @@ const NotificationDialog = React.lazy(() =>
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [mobile, setMobile] = useState(false);
   const [isSearch, setSearch] = useState(false);
   const [isNewGroup, setIsNewGroup] = useState(false);
@@ -33,23 +40,47 @@ const Header = () => {
   const handleMobile = () => {
     setMobile((prev) => !prev);
   };
+
   const openSearchDialog = () => {
     setSearch((prev) => !prev);
   };
+
   const openNewGroup = () => {
     setIsNewGroup((prev) => !prev);
   };
+
   const openNotification = () => {
     setIsNotification((prev) => !prev);
   };
+
   const navigateToGroup = () => {
     startTransition(() => {
       navigate("/groups");
     });
   };
-  const logoutHandler = () => {
-    console.log("Logout");
+
+  const logoutHandler = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:3001/api/v1/user/logout",
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success(data.message);
+      dispatch(userNotExists());
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong";
+
+      toast.error(
+        typeof errorMessage === "string"
+          ? errorMessage
+          : JSON.stringify(errorMessage)
+      );
+    }
   };
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }} height={"4rem"}>
@@ -68,40 +99,34 @@ const Header = () => {
             </Typography>
             <Box sx={{ display: { xs: "block", sm: "none" } }}>
               <IconButton color="inherit" onClick={handleMobile}>
-                <MenuIcon></MenuIcon>
+                <MenuIcon />
               </IconButton>
             </Box>
-            <Box
-              sx={{
-                flexGrow: 1,
-              }}
-            />
+            <Box sx={{ flexGrow: 1 }} />
 
             <Box>
               <IconBtn
-                title={"Search"}
+                title="Search"
                 icon={<SearchIcon />}
                 onClick={openSearchDialog}
               />
               <IconBtn
-                title={"New Group"}
+                title="New Group"
                 icon={<AddIcon />}
                 onClick={openNewGroup}
               />
               <IconBtn
-                title={"Manage Groups"}
+                title="Manage Groups"
                 icon={<GroupIcon />}
                 onClick={navigateToGroup}
               />
-
               <IconBtn
-                title={"Notifications"}
+                title="Notifications"
                 icon={<NotificationsIcon />}
                 onClick={openNotification}
               />
-
               <IconBtn
-                title={"Logout"}
+                title="Logout"
                 icon={<LogoutIcon />}
                 onClick={logoutHandler}
               />
