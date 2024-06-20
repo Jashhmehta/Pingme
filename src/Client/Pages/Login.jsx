@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
+import { CameraAlt } from "@mui/icons-material";
 import {
   Avatar,
   Button,
@@ -9,14 +10,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { CameraAlt } from "@mui/icons-material";
-import { VisuallyHiddenInput } from "../Components/Styles/StyledComponents";
-import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
-import { usernameValidator } from "../Utils/validators";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { userExists } from "../Redux/reducers/auth";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { VisuallyHiddenInput } from "../Components/Styles/StyledComponents";
+import { userExists } from "../Redux/reducers/auth";
+import { usernameValidator } from "../Utils/validators";
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -56,8 +56,36 @@ export const Login = () => {
       );
     }
   };
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("avatar", avatar.file);
+    formData.append("name", name.value);
+    formData.append("username", username.value);
+    formData.append("password", password.value);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3001/api/v1/user/register",
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      dispath(userExists(true));
+      toast.success(data.message);
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong";
+
+      toast.error(
+        typeof errorMessage === "string"
+          ? errorMessage
+          : JSON.stringify(errorMessage)
+      );
+    }
   };
   return (
     <div
