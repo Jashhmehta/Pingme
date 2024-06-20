@@ -46,7 +46,14 @@ export const Login = () => {
       dispath(userExists(true));
       toast.success(data.message);
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      const errorMessage =
+        error?.response?.data?.message || "Something went wrong";
+
+      toast.error(
+        typeof errorMessage === "string"
+          ? errorMessage
+          : JSON.stringify(errorMessage)
+      );
     }
   };
   const handleSignup = (e) => {

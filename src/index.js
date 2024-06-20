@@ -12,7 +12,7 @@ root.render(
     <Provider store={store}>
       <HelmetProvider>
         <CssBaseline />
-        <div onContextMenu={(e) => e.preventDefault()}>
+        <div >
           <App />
         </div>
       </HelmetProvider>

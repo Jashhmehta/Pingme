@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "SET NODE_ENV=DEVELOPMENT && nodemon src/server/app.js",
+    "dev": "SET NODE_ENV=PRODUTION && nodemon src/server/app.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
