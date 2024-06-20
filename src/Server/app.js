@@ -5,22 +5,27 @@ import { connectDB, getSockets } from "./utils/features.js";
 import dotenv from "dotenv";
 
 import cookieParser from "cookie-parser";
-import { Server } from "socket.io";
 import cors from "cors";
 import { createServer } from "http";
+import { Server } from "socket.io";
 import { v4 as uuid } from "uuid";
-
+import { v2 as cloudinary } from "cloudinary";
+import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
 import { errorMiddleware } from "./middelwares/error.js";
+import { Message } from "./models/message.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
-import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
-import { Message } from "./models/message.js";
 
 dotenv.config({
   path: "src/server/.env",
 });
 const mongoURI = process.env.MONGO_URI;
 connectDB(mongoURI);
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 const server = createServer(app);

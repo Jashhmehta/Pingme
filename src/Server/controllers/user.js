@@ -5,6 +5,7 @@ import {
   emitEvent,
   getOtherMembers,
   sendToken,
+  uploadFilesToCloudinary,
 } from "../utils/features.js";
 import { TryCatch } from "../middelwares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
@@ -27,10 +28,11 @@ const register = TryCatch(async (req, res, next) => {
   const { name, username, password } = req.body;
   const file = req.file;
   if (!file) return next(new ErrorHandler("Please Upload Avatar"));
-
+  const result = await uploadFilesToCloudinary([file]);
+  console.log("Result", result)
   const avatar = {
-    public_id: "1",
-    url: "xcw",
+    public_id: result[0].public_id,
+    url: result[0].url,
   };
   const user = await User.create({
     name,
