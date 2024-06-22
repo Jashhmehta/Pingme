@@ -8,7 +8,7 @@ import store from "./Client/Redux/store.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+ 
     <Provider store={store}>
       <HelmetProvider>
         <CssBaseline />
@@ -17,5 +17,5 @@ root.render(
         </div>
       </HelmetProvider>
     </Provider>
-  </React.StrictMode>
+
 );
