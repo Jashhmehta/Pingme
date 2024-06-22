@@ -8,7 +8,7 @@ const cookieOptions = {
   maxAge: 15 * 24 * 60 * 60 * 1000,
   sameSite: "none",
   httpOnly: true,
-  secure: false,
+  secure: true,
 };
 
 const connectDB = (uri) => {
@@ -53,7 +53,6 @@ const getBase64 = (file) => {
 };
 
 const uploadFilesToCloudinary = async (files = []) => {
-  
   const uploadPromises = files.map((file) => {
     return new Promise((resolve, reject) => {
       cloudinary.uploader.upload(
