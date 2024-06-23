@@ -3,31 +3,42 @@ import {
   Button,
   Dialog,
   DialogTitle,
-  IconButton,
   ListItem,
+  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
 import React, { memo } from "react";
-import { sampleNotifications } from "../../../constants/sampleData";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useGetNotificationQuery } from "../../Redux/API/api";
+import { setIsNotification } from "../../Redux/reducers/misc";
 const Notifications = () => {
+  const { isNotification } = useSelector((state) => state.misc);
+  const { isLoading, data } = useGetNotificationQuery();
   const friendRequesthandler = ({ _id, accept }) => {};
+  const dispatch = useDispatch();
+  const onCloseHandler = () => dispatch(setIsNotification(false));
   return (
-    <Dialog open>
+    <Dialog open={isNotification} onClose={onCloseHandler}>
       <Stack p={{ xs: "1rem", sm: "2rem" }} maxWidth={"25rem"}>
         <DialogTitle>Notifications</DialogTitle>
-        {sampleNotifications.length > 0 ? (
-          sampleNotifications.map((i) => (
-            <NotificationItem
-              sender={i.sender}
-              _id={i._id}
-              handler={friendRequesthandler}
-              key={i._id}
-            />
-          ))
+        {isLoading ? (
+          <Skeleton />
         ) : (
-          <Typography textAlign={"center"}>No Notifications</Typography>
+          <>
+            {data?.allRequests?.length > 0 ? (
+              data?.allRequests?.map((i) => (
+                <NotificationItem
+                  sender={i.sender}
+                  _id={i._id}
+                  handler={friendRequesthandler}
+                  key={i._id}
+                />
+              ))
+            ) : (
+              <Typography textAlign={"center"}>No Notifications</Typography>
+            )}
+          </>
         )}
       </Stack>
     </Dialog>
@@ -52,7 +63,7 @@ const NotificationItem = memo(({ sender, _id, handler }) => {
             display: "-webkit-box",
             WebkitLineClamp: 1,
             WebkitBoxOrient: "vertical",
-            overflow: "hidden",
+            overflow: "clip",
             textOverflow: "ellipsis",
           }}
         >

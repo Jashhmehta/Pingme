@@ -1,4 +1,11 @@
-import React, { startTransition, Suspense, useState } from "react";
+import {
+  Add as AddIcon,
+  Group as GroupIcon,
+  Logout as LogoutIcon,
+  Menu as MenuIcon,
+  Notifications as NotificationsIcon,
+  Search as SearchIcon,
+} from "@mui/icons-material";
 import {
   AppBar,
   Backdrop,
@@ -8,24 +15,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import {
-  Add as AddIcon,
-  Group as GroupIcon,
-  Logout as LogoutIcon,
-  Menu as MenuIcon,
-  Notifications as NotificationsIcon,
-  Search as SearchIcon,
-} from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import NewGroup from "../Specific/NewGroup";
 import axios from "axios";
+import React, { startTransition, Suspense, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userNotExists } from "../../Redux/reducers/auth";
-import { setIsSearch } from "../../Redux/reducers/misc";
-import { useLazySearchUserQuery } from "../../Redux/API/api";
+import { setIsNotification, setIsSearch } from "../../Redux/reducers/misc";
+import NewGroup from "../Specific/NewGroup";
 
-// Lazy loading components
 const SearchDialog = React.lazy(() => import("../Specific/Search"));
 const NotificationDialog = React.lazy(() =>
   import("../Specific/Notifications")
@@ -35,10 +33,9 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState(false);
-  const { isSearch } = useSelector((state) => state.misc);
+  const { isSearch, isNotification } = useSelector((state) => state.misc);
 
   const [isNewGroup, setIsNewGroup] = useState(false);
-  const [isNotification, setIsNotification] = useState(false);
 
   const handleMobile = () => {
     setMobile((prev) => !prev);
@@ -53,7 +50,7 @@ const Header = () => {
   };
 
   const openNotification = () => {
-    setIsNotification((prev) => !prev);
+    dispatch(setIsNotification(true));
   };
 
   const navigateToGroup = () => {
@@ -83,7 +80,6 @@ const Header = () => {
       );
     }
   };
-
 
   return (
     <>
