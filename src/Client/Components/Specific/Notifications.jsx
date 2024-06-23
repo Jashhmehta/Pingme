@@ -10,12 +10,30 @@ import {
 } from "@mui/material";
 import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetNotificationQuery } from "../../Redux/API/api";
+import {
+  useAcceptFriendRequestMutation,
+  useGetNotificationQuery,
+} from "../../Redux/API/api";
 import { setIsNotification } from "../../Redux/reducers/misc";
+import toast from "react-hot-toast";
 const Notifications = () => {
   const { isNotification } = useSelector((state) => state.misc);
   const { isLoading, data } = useGetNotificationQuery();
-  const friendRequesthandler = ({ _id, accept }) => {};
+  const [acceptRequest] = useAcceptFriendRequestMutation();
+  const friendRequesthandler = async ({ _id, accept }) => {
+    dispatch(setIsNotification(false));
+    try {
+      const res = await acceptRequest({ requestId: _id, accept });
+      if (res.data?.success) {
+        console.log("Use Socket");
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data?.error || "Something went wrong");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
   const dispatch = useDispatch();
   const onCloseHandler = () => dispatch(setIsNotification(false));
   return (
