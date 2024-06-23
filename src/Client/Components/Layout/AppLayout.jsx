@@ -1,23 +1,29 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import Title from "../Shared/Title";
 import { Grid, Skeleton } from "@mui/material";
 import Chatlist from "../Specific/Chatlist";
-import { samplechats } from "../../../constants/sampleData";
+
 import { useParams } from "react-router-dom";
 import Profile from "../Specific/Profile";
 import { useMyChatsQuery } from "../../Redux/API/api";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useErrors } from "../../Hooks/hook";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
     const params = useParams();
     const chatId = params.chatId;
+    const dispatch = useDispatch();
     const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
+    useErrors([{ isError, error }]);
     const handleDeleteChat = (e, _id, groupChat) => {
       e.preventDefault();
       console.log("Delete Chat", _id, groupChat);
     };
+
     return (
       <>
         <Title />
