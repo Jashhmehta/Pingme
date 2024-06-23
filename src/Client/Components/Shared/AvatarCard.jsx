@@ -15,8 +15,8 @@ const AvatarCard = ({ avatar = [], max = 4 }) => {
                 src={i}
                 alt={`Avatar ${index}`}
                 sx={{
-                  width:"2rem",
-                  height:"2rem",
+                  width:"4rem",
+                  height:"4rem",
                   position:"absolute",
                   left:{
                     xs:`${0.5 + index}rem`,
