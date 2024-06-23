@@ -28,8 +28,10 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/v1/user/profile", {withCredentials:true})
-      .then(({data}) => dispatch(userExists(data.user)))
+      .get("http://localhost:3001/api/v1/user/profile", {
+        withCredentials: true,
+      })
+      .then(({ data }) => dispatch(userExists(data.user)))
       .catch((err) => dispatch(userNotExists()));
   }, [dispatch]);
   return loader ? (
