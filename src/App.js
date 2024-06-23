@@ -5,6 +5,7 @@ import ProtectRoute from "./Client/Components/Auth/ProtectRoute.jsx";
 import { LayoutLoader } from "./Client/Components/Layout/Loaders.jsx";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import { SocketProvider } from "../src/socket.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { userExists, userNotExists } from "./Client/Redux/reducers/auth.js";
 const Home = lazy(() => import("./Client/Pages/Home.jsx"));
@@ -40,7 +41,13 @@ function App() {
     <BrowserRouter>
       <Suspense fallback={<LayoutLoader />}>
         <Routes>
-          <Route element={<ProtectRoute user={user} />}>
+          <Route
+            element={
+              <SocketProvider>
+                <ProtectRoute user={user} />
+              </SocketProvider>
+            }
+          >
             <Route path="/" element={<Home />} />
             <Route path="/chat/:id" element={<Chat />} />
             <Route path="/groups" element={<Groups />} />

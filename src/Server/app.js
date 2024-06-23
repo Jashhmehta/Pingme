@@ -29,7 +29,12 @@ cloudinary.config({
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server, {});
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -46,6 +51,11 @@ app.use("/api/v1/chat", chatRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
+});
+io.use((socket, next) => {
+  cookieParser()(socket.request, socket.request.res, () => {
+    next();
+  });
 });
 io.on("connection", (socket) => {
   const user = {

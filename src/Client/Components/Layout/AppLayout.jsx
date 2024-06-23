@@ -11,14 +11,17 @@ import { useMyChatsQuery } from "../../Redux/API/api";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useErrors } from "../../Hooks/hook";
+import { useSocket } from "../../../socket";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
     const params = useParams();
     const chatId = params.chatId;
+    const socket = useSocket();
+
     const dispatch = useDispatch();
     const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
-    const {user}=useSelector((state)=>state.auth)
+    const { user } = useSelector((state) => state.auth);
     useErrors([{ isError, error }]);
     const handleDeleteChat = (e, _id, groupChat) => {
       e.preventDefault();
