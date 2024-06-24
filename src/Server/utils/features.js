@@ -1,9 +1,8 @@
-import mongoose, { connect } from "mongoose";
-import jwt from "jsonwebtoken";
-import { compareSync } from "bcrypt";
-import { userSocketIDs } from "../app.js";
 import { v2 as cloudinary } from "cloudinary";
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import { v4 as uuid } from "uuid";
+import { userSocketIDs } from "../app.js";
 const cookieOptions = {
   maxAge: 15 * 24 * 60 * 60 * 1000,
   sameSite: "none",
@@ -36,15 +35,18 @@ const sendToken = (res, user, code, message) => {
   });
 };
 
-const emitEvent = (req, event, users, data) => {
-  console.log("Emmiting event", event);
-};
-const getOtherMembers = (members, userId) => {
-  return members.find((member) => member._id.toString() !== userId.toString());
-};
 export const getSockets = (users = []) => {
   const sockets = users.map((user) => userSocketIDs.get(user.toString()));
   return sockets;
+};
+
+const emitEvent = (req, event, users, data) => {
+  const io = req.app.get("io");
+  const usersSocket = getSockets(users);
+  io.to(usersSocket).emit(event, data);
+};
+const getOtherMembers = (members, userId) => {
+  return members.find((member) => member._id.toString() !== userId.toString());
 };
 
 const getBase64 = (file) => {
@@ -77,17 +79,17 @@ const uploadFilesToCloudinary = async (files = []) => {
       url: result.secure_url,
     }));
     return formattedResults;
-  } catch (error) {    
+  } catch (error) {
     throw new Error("Error uploading files to cloudinary", error);
   }
 };
 const deleteFilesFromCloudinary = async (public_ids) => {};
 export {
   connectDB,
-  sendToken,
   cookieOptions,
+  deleteFilesFromCloudinary,
   emitEvent,
   getOtherMembers,
-  deleteFilesFromCloudinary,
+  sendToken,
   uploadFilesToCloudinary,
 };

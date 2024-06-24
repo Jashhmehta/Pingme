@@ -36,6 +36,7 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+app.set("io", io)
 app.use(
   cors({
     origin: "http://localhost:3000",

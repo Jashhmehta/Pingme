@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Header from "./Header";
 import Title from "../Shared/Title";
 import { Grid, Skeleton } from "@mui/material";
@@ -10,8 +10,9 @@ import Profile from "../Specific/Profile";
 import { useMyChatsQuery } from "../../Redux/API/api";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { useErrors } from "../../Hooks/hook";
+import { useErrors, useSocketEvents } from "../../Hooks/hook";
 import { useSocket } from "../../../socket";
+import { NEW_MESSAGE_ALERT, NEW_REQUEST } from "../../../constants/events";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
@@ -27,6 +28,16 @@ const AppLayout = () => (WrappedComponent) => {
       e.preventDefault();
       console.log("Delete Chat", _id, groupChat);
     };
+    const newMessagesAlert = useCallback(() => {}, []);
+
+    const newRequestAlert = useCallback(() => {
+       
+    }, []);
+
+    const eventHandler = { [NEW_MESSAGE_ALERT]: newMessagesAlert ,
+      [NEW_REQUEST]: newRequestAlert 
+    };
+    useSocketEvents(socket, eventHandler);
 
     return (
       <>

@@ -1,21 +1,20 @@
+import {
+  ALERT,
+  NEW_MESSAGE,
+  NEW_MESSAGE_ALERT,
+  REFETCH_CHATS
+} from "../constants/events.js";
 import { TryCatch } from "../middelwares/error.js";
-import { ErrorHandler } from "../utils/utility.js";
 import { Chat } from "../models/chat.js";
-import { User } from "../models/user.js";
 import { Message } from "../models/message.js";
+import { User } from "../models/user.js";
 import {
   deleteFilesFromCloudinary,
   emitEvent,
   getOtherMembers,
   uploadFilesToCloudinary,
 } from "../utils/features.js";
-import {
-  ALERT,
-  NEW_ATTACHMENT,
-  NEW_MESSAGE_ALERT,
-  REFETCH_CHATS,
-} from "../constants/events.js";
-import { Preview } from "@mui/icons-material";
+import { ErrorHandler } from "../utils/utility.js";
 const newGroupChat = TryCatch(async (req, res, next) => {
   const { name, members } = req.body;
   if (members.length < 2)
@@ -219,7 +218,7 @@ const sendAttachments = TryCatch(async (req, res, next) => {
       },
     };
 
-    emitEvent(req, NEW_ATTACHMENT, chats.members, {
+    emitEvent(req, NEW_MESSAGE, chats.members, {
       message: messageForRealTime,
       chatId,
     });
@@ -345,15 +344,7 @@ const getMessages = TryCatch(async (req, res, next) => {
 });
 
 export {
-  newGroupChat,
-  getMyChats,
-  getMyGroups,
-  addMembers,
-  removeMembers,
-  leaveGroup,
-  sendAttachments,
-  getChatDetails,
-  renameGroup,
-  deleteChat,
-  getMessages,
+  addMembers, deleteChat, getChatDetails, getMessages, getMyChats,
+  getMyGroups, leaveGroup, newGroupChat, removeMembers, renameGroup, sendAttachments
 };
+
