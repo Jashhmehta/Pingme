@@ -5,7 +5,7 @@ const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3001/api/v1/",
   }),
-  tagTypes: ["Chat", "User"],
+  tagTypes: ["Chat", "User", "Message"],
   endpoints: (builder) => ({
     myChats: builder.query({
       query: () => ({
@@ -59,6 +59,13 @@ const api = createApi({
       },
       providesTags: ["Chat"],
     }),
+    getMessages: builder.query({
+      query: ({ chatId, page }) => ({
+        url: `chat/message/${chatId}?page=${page}`,
+        credentials: "include",
+      }),
+      providesTags: ["Message"],
+    }),
   }),
 });
 
@@ -70,4 +77,5 @@ export const {
   useGetNotificationQuery,
   useAcceptFriendRequestMutation,
   useChatDetailsQuery,
+  useGetMessagesQuery,
 } = api;
