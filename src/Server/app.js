@@ -64,8 +64,6 @@ io.on("connection", (socket) => {
   const user = socket.user;
 
   userSocketIDs.set(user._id.toString(), socket.id);
-  console.log("User connected", socket.id);
-  console.log("User Socket IDs", userSocketIDs);
 
   socket.on(NEW_MESSAGE, async ({ chatId, members, message }) => {
     const messageForRealTime = {
@@ -95,11 +93,9 @@ io.on("connection", (socket) => {
     } catch (error) {
       console.log(error);
     }
-    console.log("New Message", messageForRealTime);
   });
 
   socket.on("disconnect", () => {
-    console.log("User Disconnected");
     userSocketIDs.delete(user._id.toString());
   });
 });

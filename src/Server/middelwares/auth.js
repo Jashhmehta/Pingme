@@ -23,7 +23,6 @@ const socketAuthenticator = async (socket, next) => {
     }
 
     const authToken = socket.request.cookies["Pingme-Token"];
-    console.log("AuthToken: ", authToken);
 
     if (!authToken) {
       console.log("No auth token found");
@@ -39,7 +38,6 @@ const socketAuthenticator = async (socket, next) => {
     }
 
     socket.user = user;
-    console.log("User authenticated: ", user);
 
     next();
   } catch (error) {
