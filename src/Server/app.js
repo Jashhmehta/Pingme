@@ -15,6 +15,7 @@ import { errorMiddleware } from "./middelwares/error.js";
 import { Message } from "./models/message.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
+import { socketAuthenticator } from "./middelwares/auth.js";
 
 dotenv.config({
   path: "src/server/.env",
@@ -53,15 +54,15 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 io.use((socket, next) => {
-  cookieParser()(socket.request, socket.request.res, () => {
-    next();
+  cookieParser()(socket.request, socket.request.res || {}, (err) => {
+    if (err) return next(err);
+    socketAuthenticator(socket, next);
   });
 });
+
 io.on("connection", (socket) => {
-  const user = {
-    _id: "1",
-    name: "Jash",
-  };
+  const user = socket.user;
+
   userSocketIDs.set(user._id.toString(), socket.id);
   console.log("User connected", socket.id);
   console.log("User Socket IDs", userSocketIDs);
