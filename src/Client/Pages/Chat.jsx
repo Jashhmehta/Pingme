@@ -1,24 +1,24 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useCallback, useRef, useState } from "react";
 import AppLayout from "../Components/Layout/AppLayout";
 import { IconButton, Skeleton, Stack } from "@mui/material";
 import { AttachFile, Send } from "@mui/icons-material";
 import { InputBox } from "../Components/Styles/StyledComponents";
 import FileMenu from "../Components/Dialogs/FileMenu";
-import { sampleMessage } from "../../constants/sampleData";
+
 import MessageComponent from "../Components/Shared/MessageComponent";
 import { useSocket } from "../../socket";
 import { NEW_MESSAGE } from "../../constants/events";
 import { useChatDetailsQuery } from "../Redux/API/api";
-const user = {
-  _id: "340224",
-  name: "Jash",
-};
-const Chat = ({ chatId }) => {
+import { useErrors, useSocketEvents } from "../Hooks/hook";
+
+const Chat = ({ chatId, user }) => {
   const containerRef = useRef(null);
   const fileMenuRef = useRef(null);
   const socket = useSocket();
   const chatDetails = useChatDetailsQuery({ chatId, skip: !chatId });
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const errors = [{ isError: chatDetails.isError, error: chatDetails.error }];
   const members = chatDetails?.data?.chat?.members;
   const submitHandler = (e) => {
     e.preventDefault();
@@ -27,6 +27,14 @@ const Chat = ({ chatId }) => {
     socket.emit(NEW_MESSAGE, { chatId, members, message });
     setMessage("");
   };
+
+  const newMessagesHandler = useCallback((data) => {
+    setMessages((prev) => [...prev, data.message]);
+  }, []);
+
+  const eventHandler = { [NEW_MESSAGE]: newMessagesHandler };
+  useSocketEvents(socket, eventHandler);
+  useErrors(errors);
   return chatDetails.isLoading ? (
     <Skeleton />
   ) : (
@@ -43,7 +51,7 @@ const Chat = ({ chatId }) => {
           overflowY: "auto",
         }}
       >
-        {sampleMessage.map((i) => (
+        {messages.map((i) => (
           <MessageComponent key={i._id} message={i} user={user} />
         ))}
       </Stack>
