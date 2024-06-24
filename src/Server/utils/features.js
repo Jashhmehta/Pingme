@@ -48,10 +48,12 @@ export const getSockets = (users = []) => {
 };
 
 const getBase64 = (file) => {
+  if (!file || !file.buffer || !file.mimetype) {
+    throw new Error("Invalid file object");
+  }
   const base64String = file.buffer.toString("base64");
   return `data:${file.mimetype};base64,${base64String}`;
 };
-
 const uploadFilesToCloudinary = async (files = []) => {
   const uploadPromises = files.map((file) => {
     return new Promise((resolve, reject) => {
@@ -75,7 +77,7 @@ const uploadFilesToCloudinary = async (files = []) => {
       url: result.secure_url,
     }));
     return formattedResults;
-  } catch (error) {
+  } catch (error) {    
     throw new Error("Error uploading files to cloudinary", error);
   }
 };
