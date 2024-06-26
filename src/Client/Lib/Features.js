@@ -14,11 +14,17 @@ const fileFormat = (url = "") => {
     fileExtension === "gif"
   )
     return "image";
-    return "file";
+  return "file";
 };
 
-const transformImage=(url="", width=100)=>url;
-const getLast7days=()=>{
+const transformImage = (url = "", width = 100) => url;
+const getLast7days = () => {};
 
+const getorSaveFromStorage = ({ key, value, get }) => {
+  if (get)
+    return localStorage.getItem(key)
+      ? JSON.parse(localStorage.getItem(key))
+      : null;
+  else localStorage.setItem(key, JSON.stringify(value));
 };
-export { fileFormat, transformImage, getLast7days };
+export { fileFormat, transformImage, getLast7days, getorSaveFromStorage };

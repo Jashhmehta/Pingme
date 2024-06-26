@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import { useErrors, useSocketEvents } from "../../Hooks/hook";
 import { useSocket } from "../../../socket";
 import { NEW_MESSAGE_ALERT, NEW_REQUEST } from "../../../constants/events";
+import { getorSaveFromStorage } from "../../Lib/Features";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
@@ -24,18 +25,26 @@ const AppLayout = () => (WrappedComponent) => {
     const socket = useSocket();
 
     const { newMessagesAlert } = useSelector((state) => state.chat);
-    console.log("newMessagesAlert", newMessagesAlert)
+
     const dispatch = useDispatch();
     const { isLoading, data, isError, error } = useMyChatsQuery("");
     const { user } = useSelector((state) => state.auth);
     useErrors([{ isError, error }]);
+
+    useEffect(() => {
+      getorSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert });
+    }, [newMessagesAlert]);
     const handleDeleteChat = (e, _id, groupChat) => {
       e.preventDefault();
       console.log("Delete Chat", _id, groupChat);
     };
-    const newMessageAlert = useCallback((data) => {
-      dispatch(setNewMessagesAlert(data));
-    }, []);
+    const newMessageAlert = useCallback(
+      (data) => {
+        if (data.chatId === chatId) return;
+        dispatch(setNewMessagesAlert(data));
+      },
+      [chatId]
+    );
 
     const newRequestAlert = useCallback(() => {
       dispatch(incrementNotification());

@@ -16,6 +16,7 @@ import { Message } from "./models/message.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
 import { socketAuthenticator } from "./middelwares/auth.js";
+import { START_TYPING, STOP_TYPING } from "../constants/events.js";
 
 dotenv.config({
   path: "src/server/.env",
@@ -36,7 +37,7 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-app.set("io", io)
+app.set("io", io);
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -65,6 +66,15 @@ io.on("connection", (socket) => {
   const user = socket.user;
 
   userSocketIDs.set(user._id.toString(), socket.id);
+  socket.on(START_TYPING, ({ members, chatId }) => {
+    const membersSocket = getSockets(members);
+    socket.to(membersSocket).emit(START_TYPING, { chatId });
+  });
+
+  socket.on(STOP_TYPING, ({ members, chatId }) => {
+    const membersSocket = getSockets(members);
+    socket.to(membersSocket).emit(STOP_TYPING, { chatId });
+  });
 
   socket.on(NEW_MESSAGE, async ({ chatId, members, message }) => {
     const messageForRealTime = {
@@ -100,6 +110,7 @@ io.on("connection", (socket) => {
     userSocketIDs.delete(user._id.toString());
   });
 });
+
 app.use(errorMiddleware);
 server.listen(3001, () => {
   console.log(`Server is running on port ${port} in ${env_mode} mode`);
