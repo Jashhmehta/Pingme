@@ -4,7 +4,10 @@ import Header from "./Header";
 import Title from "../Shared/Title";
 import { Grid, Skeleton } from "@mui/material";
 import Chatlist from "../Specific/Chatlist";
-
+import {
+  incrementNotification,
+  setNewMessagesAlert,
+} from "../../Redux/reducers/chat";
 import { useParams } from "react-router-dom";
 import Profile from "../Specific/Profile";
 import { useMyChatsQuery } from "../../Redux/API/api";
@@ -20,22 +23,27 @@ const AppLayout = () => (WrappedComponent) => {
     const chatId = params.chatId;
     const socket = useSocket();
 
+    const { newMessagesAlert } = useSelector((state) => state.chat);
+    console.log("newMessagesAlert", newMessagesAlert)
     const dispatch = useDispatch();
-    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
+    const { isLoading, data, isError, error } = useMyChatsQuery("");
     const { user } = useSelector((state) => state.auth);
     useErrors([{ isError, error }]);
     const handleDeleteChat = (e, _id, groupChat) => {
       e.preventDefault();
       console.log("Delete Chat", _id, groupChat);
     };
-    const newMessagesAlert = useCallback(() => {}, []);
-
-    const newRequestAlert = useCallback(() => {
-       
+    const newMessageAlert = useCallback((data) => {
+      dispatch(setNewMessagesAlert(data));
     }, []);
 
-    const eventHandler = { [NEW_MESSAGE_ALERT]: newMessagesAlert ,
-      [NEW_REQUEST]: newRequestAlert 
+    const newRequestAlert = useCallback(() => {
+      dispatch(incrementNotification());
+    }, [dispatch]);
+
+    const eventHandler = {
+      [NEW_MESSAGE_ALERT]: newMessageAlert,
+      [NEW_REQUEST]: newRequestAlert,
     };
     useSocketEvents(socket, eventHandler);
 
@@ -61,6 +69,7 @@ const AppLayout = () => (WrappedComponent) => {
                 chats={data?.chats}
                 chatId={chatId}
                 handleDeleteChat={handleDeleteChat}
+                newMessagesAlert={newMessagesAlert}
               />
             )}
           </Grid>
