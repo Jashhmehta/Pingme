@@ -22,9 +22,13 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
-import { samplechats, sampleUsers } from "../../constants/sampleData";
 import UserItem from "../Components/Shared/UserItem";
-import { useMyChatsQuery, useMyGroupsQuery } from "../Redux/API/api";
+import {
+  useChatDetailsQuery,
+  useMyChatsQuery,
+  useMyGroupsQuery,
+} from "../Redux/API/api";
+
 const ConfirmDeleteDialog = React.lazy(() =>
   import("../Components/Dialogs/ConfirmDeleteDialog")
 );
@@ -39,11 +43,25 @@ const Groups = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [groupName, setGroupName] = useState("");
   const myGroups = useMyGroupsQuery("");
+  const [members, setmembers]=useState([])
+  const groupDetails = useChatDetailsQuery(
+    { chatId, populate: true },
+    { skip: !chatId }
+  );
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const navigateBack = () => {
     navigate("/");
   };
+
+ useEffect(()=>{
+  const groupData=groupDetails.data;
+  if(groupData){
+    setGroupName(groupData.chat.name);
+    setGroupNameUpdatedValue(groupData.chat.name);
+    setmembers(groupData.chat.members)
+  }
+ })
 
   const updateGroupName = () => {
     setIsEdit(false);
@@ -164,7 +182,7 @@ const Groups = () => {
   ) : (
     <Grid container height={"100vh"}>
       <Grid item sm={4} bgcolor={"bisque"}>
-        <GroupsList myGroups={samplechats} chatId={chatId} />
+        <GroupsList myGroups={myGroups?.data?.groups} chatId={chatId} />
       </Grid>
       <Grid
         item
@@ -203,7 +221,7 @@ const Groups = () => {
               height={"50vh"}
               overflow={"auto"}
             >
-              {sampleUsers.map((i) => (
+              {members.map((i) => (
                 <UserItem
                   user={i}
                   key={i._id}
