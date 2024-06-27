@@ -43,7 +43,7 @@ const Groups = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [groupName, setGroupName] = useState("");
   const myGroups = useMyGroupsQuery("");
-  const [members, setmembers]=useState([])
+  const [members, setmembers] = useState([]);
   const groupDetails = useChatDetailsQuery(
     { chatId, populate: true },
     { skip: !chatId }
@@ -54,14 +54,22 @@ const Groups = () => {
     navigate("/");
   };
 
- useEffect(()=>{
-  const groupData=groupDetails.data;
-  if(groupData){
-    setGroupName(groupData.chat.name);
-    setGroupNameUpdatedValue(groupData.chat.name);
-    setmembers(groupData.chat.members)
-  }
- })
+  useEffect(() => {
+    const groupData = groupDetails.data;
+    if (groupData) {
+      setGroupName(groupData.chat.name);
+      setGroupNameUpdatedValue(groupData.chat.name);
+      setmembers(groupData.chat.members);
+    }
+    return()=>{
+      setGroupName("");
+      setGroupNameUpdatedValue("");
+      setmembers([]);
+      setIsEdit(false)
+      
+
+    }
+  });
 
   const updateGroupName = () => {
     setIsEdit(false);
