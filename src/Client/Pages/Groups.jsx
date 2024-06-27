@@ -17,12 +17,14 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { LayoutLoader } from "../Components/Layout/Loaders";
 import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
 import { samplechats, sampleUsers } from "../../constants/sampleData";
 import UserItem from "../Components/Shared/UserItem";
+import { useMyChatsQuery, useMyGroupsQuery } from "../Redux/API/api";
 const ConfirmDeleteDialog = React.lazy(() =>
   import("../Components/Dialogs/ConfirmDeleteDialog")
 );
@@ -36,11 +38,13 @@ const Groups = () => {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [groupName, setGroupName] = useState("");
+  const myGroups = useMyGroupsQuery("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const navigateBack = () => {
     navigate("/");
   };
+
   const updateGroupName = () => {
     setIsEdit(false);
     console.log(groupNameUpdatedValue);
@@ -155,7 +159,9 @@ const Groups = () => {
       </Button>
     </Stack>
   );
-  return (
+  return myGroups.isLoading ? (
+    <LayoutLoader />
+  ) : (
     <Grid container height={"100vh"}>
       <Grid item sm={4} bgcolor={"bisque"}>
         <GroupsList myGroups={samplechats} chatId={chatId} />

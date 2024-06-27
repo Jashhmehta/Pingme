@@ -6,6 +6,7 @@ import {
   DialogTitle,
   IconButton,
   ListItem,
+  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -13,9 +14,21 @@ import {
 import { sampleUsers } from "../../../constants/sampleData";
 import UserItem from "../Shared/UserItem";
 import { useInputValidation } from "6pp";
+import { useDispatch } from "react-redux";
+import { useErrors } from "../../Hooks/hook";
+import { useAvailableFriendsQuery } from "../../Redux/API/api";
 const NewGroup = () => {
-  const [members, setMembers] = useState(sampleUsers);
+  const dispatch = useDispatch();
+  const { isError, isLoading, data, error } = useAvailableFriendsQuery();
+
   const [selectedmembers, setSelectedMembers] = useState([]);
+  const errors = [
+    {
+      isError,
+      error,
+    },
+  ];
+  useErrors(errors);
   const groupName = useInputValidation();
   const selectMemberHandler = (id) => {
     setSelectedMembers((prev) =>
@@ -40,14 +53,18 @@ const NewGroup = () => {
         />
         <Typography variant="body1">Members</Typography>
         <Stack>
-          {members.map((i) => (
-            <UserItem
-              user={i}
-              key={i._id}
-              handler={selectMemberHandler}
-              isAdded={selectedmembers.includes(i._id)}
-            />
-          ))}
+          {isLoading ? (
+            <Skeleton />
+          ) : (
+            data?.friends?.map((i) => (
+              <UserItem
+                user={i}
+                key={i._id}
+                handler={selectMemberHandler}
+                isAdded={selectedmembers.includes(i._id)}
+              />
+            ))
+          )}
         </Stack>
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Button variant="text" color="error">
