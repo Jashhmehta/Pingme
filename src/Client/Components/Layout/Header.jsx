@@ -22,7 +22,11 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userNotExists } from "../../Redux/reducers/auth";
-import { setIsNotification, setIsSearch } from "../../Redux/reducers/misc";
+import {
+  setIsNotification,
+  setIsSearch,
+  setIsNewGroup,
+} from "../../Redux/reducers/misc";
 import NewGroup from "../Specific/NewGroup";
 import { resetNotificationCount } from "../../Redux/reducers/chat";
 
@@ -35,10 +39,10 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mobile, setMobile] = useState(false);
-  const { isSearch, isNotification } = useSelector((state) => state.misc);
+  const { isSearch, isNotification, isNewGroup } = useSelector(
+    (state) => state.misc
+  );
   const { notificationCount } = useSelector((state) => state.chat);
-
-  const [isNewGroup, setIsNewGroup] = useState(false);
 
   const handleMobile = () => {
     setMobile((prev) => !prev);
@@ -49,7 +53,7 @@ const Header = () => {
   };
 
   const openNewGroup = () => {
-    setIsNewGroup((prev) => !prev);
+    dispatch(setIsNewGroup(true));
   };
 
   const openNotification = () => {
