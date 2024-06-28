@@ -8,7 +8,7 @@ import {
   incrementNotification,
   setNewMessagesAlert,
 } from "../../Redux/reducers/chat";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Profile from "../Specific/Profile";
 import { useMyChatsQuery } from "../../Redux/API/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +25,7 @@ import { getorSaveFromStorage } from "../../Lib/Features";
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
     const params = useParams();
+    const navigate = useNavigate();
     const chatId = params.chatId;
     const socket = useSocket();
 
@@ -56,7 +57,8 @@ const AppLayout = () => (WrappedComponent) => {
 
     const refetchListener = useCallback(() => {
       refetch();
-    }, [refetch]);
+      navigate("/");
+    }, [refetch, navigate]);
 
     const eventHandler = {
       [NEW_MESSAGE_ALERT]: newMessageAlert,

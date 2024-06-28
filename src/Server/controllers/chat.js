@@ -2,7 +2,7 @@ import {
   ALERT,
   NEW_MESSAGE,
   NEW_MESSAGE_ALERT,
-  REFETCH_CHATS
+  REFETCH_CHATS,
 } from "../constants/events.js";
 import { TryCatch } from "../middelwares/error.js";
 import { Chat } from "../models/chat.js";
@@ -132,6 +132,9 @@ const removeMembers = TryCatch(async (req, res, next) => {
 
     if (chat.members.length <= 3)
       return next(new ErrorHandler("Group must have atleast 3 members", 400));
+
+    const allChatMembers = chat.members.map((i) => i.toString());
+
     chat.members = chat.members.filter(
       (member) => member.toString() !== userId.toString()
     );
@@ -143,7 +146,7 @@ const removeMembers = TryCatch(async (req, res, next) => {
       chat.members,
       `${kickedUser.name} has been removed from the group`
     );
-    emitEvent(req, REFETCH_CHATS, chat.members);
+    emitEvent(req, REFETCH_CHATS, allChatMembers);
     return res.status(200).json({
       success: true,
       message: "Members removed successfully",
@@ -321,8 +324,12 @@ const deleteChat = TryCatch(async (req, res, next) => {
   });
 });
 
-
 const getMessages = TryCatch(async (req, res, next) => {
+  const chat = Chat.findById(chatId);
+  if (!chat.members.includes(req.user.toString()))
+    return next(
+      new ErrorHandler("You are not allowed to access this chat", 403)
+    );
   const chatId = req.params.id;
   const { page = 1 } = req.query;
   const limit = 20;
@@ -352,7 +359,15 @@ const getMessages = TryCatch(async (req, res, next) => {
   }
 });
 export {
-  addMembers, deleteChat, getChatDetails, getMessages, getMyChats,
-  getMyGroups, leaveGroup, newGroupChat, removeMembers, renameGroup, sendAttachments
+  addMembers,
+  deleteChat,
+  getChatDetails,
+  getMessages,
+  getMyChats,
+  getMyGroups,
+  leaveGroup,
+  newGroupChat,
+  removeMembers,
+  renameGroup,
+  sendAttachments,
 };
-
