@@ -15,7 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useErrors, useSocketEvents } from "../../Hooks/hook";
 import { useSocket } from "../../../socket";
-import { NEW_MESSAGE_ALERT, NEW_REQUEST } from "../../../constants/events";
+import {
+  NEW_MESSAGE_ALERT,
+  NEW_REQUEST,
+  REFETCH_CHATS,
+} from "../../../constants/events";
 import { getorSaveFromStorage } from "../../Lib/Features";
 
 const AppLayout = () => (WrappedComponent) => {
@@ -27,7 +31,7 @@ const AppLayout = () => (WrappedComponent) => {
     const { newMessagesAlert } = useSelector((state) => state.chat);
 
     const dispatch = useDispatch();
-    const { isLoading, data, isError, error } = useMyChatsQuery("");
+    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
     const { user } = useSelector((state) => state.auth);
     useErrors([{ isError, error }]);
 
@@ -50,9 +54,14 @@ const AppLayout = () => (WrappedComponent) => {
       dispatch(incrementNotification());
     }, [dispatch]);
 
+    const refetchListener = useCallback(() => {
+      refetch();
+    }, [refetch]);
+
     const eventHandler = {
       [NEW_MESSAGE_ALERT]: newMessageAlert,
       [NEW_REQUEST]: newRequestAlert,
+      [REFETCH_CHATS]: refetchListener,
     };
     useSocketEvents(socket, eventHandler);
 

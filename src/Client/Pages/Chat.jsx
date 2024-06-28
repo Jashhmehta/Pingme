@@ -27,12 +27,14 @@ import { removeNewMessagesAlert } from "../Redux/reducers/chat";
 import { TypingLoader } from "../Components/Layout/Loaders";
 
 const Chat = ({ chatId, user }) => {
+  
   const containerRef = useRef(null);
   const fileMenuRef = useRef(null);
   const socket = useSocket();
   const bottomref = useRef(null);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  
   const [IamTyping, setIamTyping] = useState(false);
   const [userTyping, setuserTyping] = useState(false);
   const typingTimeout = useRef(null);
