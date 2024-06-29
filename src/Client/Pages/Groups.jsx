@@ -1,5 +1,3 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Add,
   Delete,
@@ -8,9 +6,9 @@ import {
   KeyboardBackspace,
 } from "@mui/icons-material";
 import {
-  Avatar,
   Backdrop,
   Button,
+  CircularProgress,
   Grid,
   IconButton,
   Stack,
@@ -18,26 +16,24 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import React, { Suspense, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { AddMemberDialog } from "../Components/Dialogs/AddMemberDialog.jsx";
 import { LayoutLoader } from "../Components/Layout/Loaders";
-import { Link } from "../Components/Styles/StyledComponents";
 import AvatarCard from "../Components/Shared/AvatarCard";
 import UserItem from "../Components/Shared/UserItem";
+import { Link } from "../Components/Styles/StyledComponents";
 import { useAsyncMutation } from "../Hooks/hook";
-import { AddMemberDialog } from "../Components/Dialogs/AddMemberDialog.jsx";
 import {
-  useAddGroupMemberMutation,
   useChatDetailsQuery,
-  useMyChatsQuery,
+  useDeleteChatMutation,
   useMyGroupsQuery,
   useRemoveGroupMemberMutation,
   useRenameGroupMutation,
 } from "../Redux/API/api";
-import { useDispatch, useSelector } from "react-redux";
+import { ConfirmDeleteDialog } from "../Components/Dialogs/ConfirmDeleteDialog.jsx";
 import { setIsAddMember } from "../Redux/reducers/misc";
-
-const ConfirmDeleteDialog = React.lazy(() =>
-  import("../Components/Dialogs/ConfirmDeleteDialog")
-);
 
 const Groups = () => {
   const dispatch = useDispatch();
@@ -53,6 +49,9 @@ const Groups = () => {
     useRemoveGroupMemberMutation
   );
 
+  const [deleteGroup] = useAsyncMutation(
+    useDeleteChatMutation
+  );
   const groupDetails = useChatDetailsQuery(
     { chatId, populate: true },
     { skip: !chatId }
@@ -89,7 +88,6 @@ const Groups = () => {
 
   const openConfirmDeleteHandler = () => {
     setConfirmDeleteDialog(true);
-    console.log("Delete Group");
   };
 
   const closeConfirmDeleteHandler = () => {
@@ -101,7 +99,7 @@ const Groups = () => {
   };
 
   const deleteHandler = () => {
-    console.log("Delete");
+    deleteGroup("Deleting Group", chatId);
     closeConfirmDeleteHandler();
   };
 
@@ -250,19 +248,23 @@ const Groups = () => {
               height={"50vh"}
               overflow={"auto"}
             >
-              {members.map((i) => (
-                <UserItem
-                  user={i}
-                  key={i._id}
-                  isAdded
-                  styling={{
-                    boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
-                    padding: "1rem 2rem",
-                    borderRadius: "1rem",
-                  }}
-                  handler={removeMemberHandler}
-                />
-              ))}
+              {isLoadingRemoveMember ? (
+                <CircularProgress />
+              ) : (
+                members.map((i) => (
+                  <UserItem
+                    user={i}
+                    key={i._id}
+                    isAdded
+                    styling={{
+                      boxShadow: "0 0 0.5rem rgba(0,0,0,0.2)",
+                      padding: "1rem 2rem",
+                      borderRadius: "1rem",
+                    }}
+                    handler={removeMemberHandler}
+                  />
+                ))
+              )}
             </Stack>
             {ButtonGroup}
           </>

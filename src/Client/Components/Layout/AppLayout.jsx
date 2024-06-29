@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import Header from "./Header";
 import Title from "../Shared/Title";
 import { Grid, Skeleton } from "@mui/material";
@@ -21,12 +21,15 @@ import {
   REFETCH_CHATS,
 } from "../../../constants/events";
 import { getorSaveFromStorage } from "../../Lib/Features";
+import { setIsDeleteMenu } from "../../Redux/reducers/misc";
+import DeleteChatMenu from "../Dialogs/DeleteChatMenu";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
     const params = useParams();
     const navigate = useNavigate();
     const chatId = params.chatId;
+    const deleteMenuAnchor = useRef(null);
     const socket = useSocket();
 
     const { newMessagesAlert } = useSelector((state) => state.chat);
@@ -40,8 +43,9 @@ const AppLayout = () => (WrappedComponent) => {
       getorSaveFromStorage({ key: NEW_MESSAGE_ALERT, value: newMessagesAlert });
     }, [newMessagesAlert]);
     const handleDeleteChat = (e, _id, groupChat) => {
-      e.preventDefault();
-      console.log("Delete Chat", _id, groupChat);
+      dispatch(setIsDeleteMenu(true));
+      deleteMenuAnchor.current=e.currentTarget
+   
     };
     const newMessageAlert = useCallback(
       (data) => {
@@ -71,6 +75,7 @@ const AppLayout = () => (WrappedComponent) => {
       <>
         <Title />
         <Header />
+        <DeleteChatMenu  dispatch={dispatch} deleteOptionAnchor={deleteMenuAnchor.current}/>
 
         <Grid container height={"calc(100vh - 4rem)"}>
           <Grid

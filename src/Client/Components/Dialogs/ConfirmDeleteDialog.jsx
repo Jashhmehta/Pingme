@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const ConfirmDeleteDialog = ({ open, handleClose, deleteHandler }) => {
+export const ConfirmDeleteDialog = ({ open, handleClose, deleteHandler }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Confirm Delete</DialogTitle>
@@ -25,4 +25,4 @@ const ConfirmDeleteDialog = ({ open, handleClose, deleteHandler }) => {
   );
 };
 
-export default ConfirmDeleteDialog;
+
