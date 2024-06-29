@@ -1,28 +1,30 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect, useRef } from "react";
-import Header from "./Header";
-import Title from "../Shared/Title";
 import { Grid, Skeleton } from "@mui/material";
-import Chatlist from "../Specific/Chatlist";
-import {
-  incrementNotification,
-  setNewMessagesAlert,
-} from "../../Redux/reducers/chat";
-import { useNavigate, useParams } from "react-router-dom";
-import Profile from "../Specific/Profile";
-import { useMyChatsQuery } from "../../Redux/API/api";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
-import { useErrors, useSocketEvents } from "../../Hooks/hook";
-import { useSocket } from "../../../socket";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   NEW_MESSAGE_ALERT,
   NEW_REQUEST,
   REFETCH_CHATS,
 } from "../../../constants/events";
+import { useSocket } from "../../../socket";
+import { useErrors, useSocketEvents } from "../../Hooks/hook";
 import { getorSaveFromStorage } from "../../Lib/Features";
-import { setIsDeleteMenu } from "../../Redux/reducers/misc";
+import { useMyChatsQuery } from "../../Redux/API/api";
+import {
+  incrementNotification,
+  setNewMessagesAlert,
+} from "../../Redux/reducers/chat";
+import {
+  setIsDeleteMenu,
+  setSelectedDeleteChat,
+} from "../../Redux/reducers/misc";
 import DeleteChatMenu from "../Dialogs/DeleteChatMenu";
+import Title from "../Shared/Title";
+import Chatlist from "../Specific/Chatlist";
+import Profile from "../Specific/Profile";
+import Header from "./Header";
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) => {
@@ -44,8 +46,8 @@ const AppLayout = () => (WrappedComponent) => {
     }, [newMessagesAlert]);
     const handleDeleteChat = (e, _id, groupChat) => {
       dispatch(setIsDeleteMenu(true));
-      deleteMenuAnchor.current=e.currentTarget
-   
+      dispatch(setSelectedDeleteChat({ _id, groupChat }));
+      deleteMenuAnchor.current = e.currentTarget;
     };
     const newMessageAlert = useCallback(
       (data) => {
@@ -75,7 +77,10 @@ const AppLayout = () => (WrappedComponent) => {
       <>
         <Title />
         <Header />
-        <DeleteChatMenu  dispatch={dispatch} deleteOptionAnchor={deleteMenuAnchor.current}/>
+        <DeleteChatMenu
+          dispatch={dispatch}
+          deleteOptionAnchor={deleteMenuAnchor}
+        />
 
         <Grid container height={"calc(100vh - 4rem)"}>
           <Grid
