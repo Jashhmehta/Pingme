@@ -11,7 +11,7 @@ const NotFound = () => {
         height: "100vh",
       }}
     >
-      <Stack>
+      <Stack alignItems={"center"} spacing={"2rem"} justifyContent={"center"} height={"100%"}>
         <Error />
         <Typography variant="h1">404</Typography>
         <Typography variant="h2">Page not found</Typography>
