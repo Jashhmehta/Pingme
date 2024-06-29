@@ -102,12 +102,10 @@ const addMembers = TryCatch(async (req, res, next) => {
     return next(new ErrorHandler("Group members limit reached", 400));
   await chat.save();
   const allUsersName = allNewMembers.map((i) => i.name).join(",");
-  emitEvent(
-    req,
-    ALERT,
-    chat.members,
-    `${allUsersName} has been added to ${chat.name} group`
-  );
+  emitEvent(req, ALERT, chat.members, {
+    message: `${allUsersName} has been added to ${chat.name} group`,
+    chatId,
+  });
   emitEvent(req, REFETCH_CHATS, chat.members);
   return res.status(200).json({
     succes: true,
@@ -175,7 +173,10 @@ const leaveGroup = TryCatch(async (req, res, next) => {
     chat.save(),
   ]);
 
-  emitEvent(req, ALERT, chat.members, `User ${user.name} has left the group`);
+  emitEvent(req, ALERT, chat.members, {
+    chatId,
+    message: `User ${user.name} has left the group`,
+  });
   return res.status(200).json({
     succes: true,
     message: "Left group successfully",
@@ -289,7 +290,6 @@ const renameGroup = TryCatch(async (req, res, next) => {
 });
 
 const deleteChat = TryCatch(async (req, res, next) => {
-  
   const chatId = req.params.id;
   const chat = await Chat.findById(chatId);
   if (!chat) return next(new ErrorHandler("Chat not found", 404));

@@ -20,6 +20,7 @@ import { usernameValidator } from "../Utils/validators";
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
+
   const toggleLogin = () => setIsLogin((prev) => !prev);
   const name = useInputValidation("");
   const username = useInputValidation("", usernameValidator);
@@ -43,7 +44,7 @@ export const Login = () => {
         },
         config
       );
-      dispatch(userExists(true));
+      dispatch(userExists(data.user));
       toast.success(data.message);
     } catch (error) {
       const errorMessage =
@@ -74,7 +75,7 @@ export const Login = () => {
           },
         }
       );
-      dispatch(userExists(true));
+      dispatch(userExists(data.user));
       toast.success(data.message);
     } catch (error) {
       const errorMessage =

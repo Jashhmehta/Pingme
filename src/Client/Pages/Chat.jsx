@@ -52,8 +52,8 @@ const Chat = ({ chatId, user }) => {
   );
 
   useEffect(() => {
-    if (!chatDetails.data?.chat) return navigate("/");
-  });
+    if (chatDetails.isError) return navigate("/");
+  }, [chatDetails.isError]);
 
   const dispatch = useDispatch();
 
@@ -128,17 +128,17 @@ const Chat = ({ chatId, user }) => {
   }, [chatId]);
 
   const alertHandler = useCallback((data) => {
+    if (data.chatId !== chatId) return;
     const messageForAlert = {
-      content: data,
+      content: data.message,
       sender: {
-        _id: "edrf",
+        _id: "12df94i934r",
         name: "Admin",
       },
       chat: chatId,
       createdAt: new Date().toISOString(),
     };
-    setMessages((prev) => [...prev, messageForAlert]);
-  }, []);
+  });
   const eventHandler = {
     [NEW_MESSAGE]: newMessagesHandler,
     [START_TYPING]: startTypingHandler,
