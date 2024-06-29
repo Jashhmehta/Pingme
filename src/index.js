@@ -8,14 +8,12 @@ import store from "./Client/Redux/store.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
- 
-    <Provider store={store}>
-      <HelmetProvider>
-        <CssBaseline />
-        <div >
-          <App />
-        </div>
-      </HelmetProvider>
-    </Provider>
-
+  <Provider store={store}>
+    <HelmetProvider>
+      <CssBaseline />
+      <div onContextMenu={(e) => e.preventDefault()}>
+        <App />
+      </div>
+    </HelmetProvider>
+  </Provider>
 );
