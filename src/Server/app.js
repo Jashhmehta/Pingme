@@ -38,7 +38,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 const corsOptions = {
-  origin: ["http://localhost:3000", process.env.CLIENT_URL],
+  origin: ["http://localhost:3000", "https://pingme-chi.vercel.app/"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
