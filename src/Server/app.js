@@ -10,13 +10,22 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { v4 as uuid } from "uuid";
 import { v2 as cloudinary } from "cloudinary";
-import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
+import {
+  NEW_MESSAGE,
+  NEW_MESSAGE_ALERT,
+  ONLINE,
+} from "../Server/constants/events.js";
 import { errorMiddleware } from "./middelwares/error.js";
 import { Message } from "./models/message.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
 import { socketAuthenticator } from "./middelwares/auth.js";
-import { START_TYPING, STOP_TYPING } from "../constants/events.js";
+import {
+  CHAT_EXIT,
+  CHAT_JOINED,
+  START_TYPING,
+  STOP_TYPING,
+} from "../Server/constants/events.js";
 
 dotenv.config({
   path: "src/server/.env",
@@ -28,14 +37,20 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://pingme-chi.vercel.app",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    credentials: true,
-  },
+  cors: corsOptions,
 });
 app.set("io", io);
 app.use(
@@ -44,6 +59,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 const port = process.env.PORT || 3001;
@@ -62,8 +78,24 @@ io.use((socket, next) => {
   });
 });
 
+const onlineUsers = new Set();
 io.on("connection", (socket) => {
   const user = socket.user;
+
+  socket.on(CHAT_JOINED, ({ userId, members }) => {
+    console.log("----------USER ID------------", userId);
+    console.log("----------MEMBERS------------", members);
+    onlineUsers.add(userId?.toString());
+    const membersSocket = getSockets(members);
+    console.log("----------ONLINE USERS------------", onlineUsers);
+    io.to(membersSocket).emit(ONLINE, Array.from(onlineUsers));
+  });
+
+  socket.on(CHAT_EXIT, ({ userId, members }) => {
+    onlineUsers.delete(userId?.toString());
+    const membersSocket = getSockets(members);
+    io.to(membersSocket).emit(ONLINE, Array.from(onlineUsers));
+  });
 
   userSocketIDs.set(user._id.toString(), socket.id);
   socket.on(START_TYPING, ({ members, chatId }) => {
