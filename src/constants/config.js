@@ -1,2 +1,2 @@
 
-export const client_url = "https://pingme-4a06.onrender.com";
+export const client_url = "https://pingme-chi.vercel.app/";
