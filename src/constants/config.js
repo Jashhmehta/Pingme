@@ -1,2 +1,2 @@
-export const client_url="http://localhost:3001";
 
+export const client_url = "https://pingme-chi.vercel.app/";
