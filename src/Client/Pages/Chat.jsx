@@ -15,6 +15,8 @@ import MessageComponent from "../Components/Shared/MessageComponent";
 import { useSocket } from "../../socket";
 import {
   ALERT,
+  CHAT_EXIT,
+  CHAT_JOINED,
   NEW_MESSAGE,
   START_TYPING,
   STOP_TYPING,
@@ -118,12 +120,15 @@ const Chat = ({ chatId, user }) => {
   );
 
   useEffect(() => {
+    socket.emit(CHAT_JOINED, { userId: user._id, members });
     dispatch(removeNewMessagesAlert(chatId));
+
     return () => {
       setMessages([]);
       setMessage("");
       setOldMessages([]);
       setPage(1);
+      socket.emit(CHAT_EXIT, user._id);
     };
   }, [chatId]);
 

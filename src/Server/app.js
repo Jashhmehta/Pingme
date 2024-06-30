@@ -38,11 +38,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    
-    "https://pingme-chi.vercel.app",
-  ],
+  origin: ["http://localhost:3000", "https://pingme-chi.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
@@ -83,11 +79,9 @@ io.on("connection", (socket) => {
   const user = socket.user;
 
   socket.on(CHAT_JOINED, ({ userId, members }) => {
-    console.log("----------USER ID------------", userId);
-    console.log("----------MEMBERS------------", members);
     onlineUsers.add(userId?.toString());
     const membersSocket = getSockets(members);
-    console.log("----------ONLINE USERS------------", onlineUsers);
+
     io.to(membersSocket).emit(ONLINE, Array.from(onlineUsers));
   });
 
