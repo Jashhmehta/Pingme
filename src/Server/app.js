@@ -54,7 +54,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
+
 export const env_mode = process.env.NODE_ENV?.trim() || "PRODUCTION";
 export const userSocketIDs = new Map();
 
