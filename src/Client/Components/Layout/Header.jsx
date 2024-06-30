@@ -29,6 +29,7 @@ import {
 } from "../../Redux/reducers/misc";
 import NewGroup from "../Specific/NewGroup";
 import { resetNotificationCount } from "../../Redux/reducers/chat";
+import { client_url } from "../../../constants/config";
 
 const SearchDialog = React.lazy(() => import("../Specific/Search"));
 const NotificationDialog = React.lazy(() =>
@@ -69,18 +70,15 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:3001/api/v1/user/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.get(`${client_url}/api/v1/user/logout`, {
+        withCredentials: true,
+      });
       toast.success(data.message);
       dispatch(userNotExists());
     } catch (error) {
       const errorMessage =
         error?.response?.data?.message || "Something went wrong";
-
+  
       toast.error(
         typeof errorMessage === "string"
           ? errorMessage
