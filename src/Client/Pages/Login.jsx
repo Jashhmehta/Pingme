@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { VisuallyHiddenInput } from "../Components/Styles/StyledComponents";
 import { userExists } from "../Redux/reducers/auth";
 import { usernameValidator } from "../Utils/validators";
+import { client_url } from "../../constants/config";
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -37,7 +38,7 @@ export const Login = () => {
     };
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/api/v1/user/login",
+        `${client_url}/api/v1/user/login`,
         {
           username: username.value,
           password: password.value,
@@ -49,7 +50,7 @@ export const Login = () => {
     } catch (error) {
       const errorMessage =
         error?.response?.data?.message || "Something went wrong";
-
+  
       toast.error(
         typeof errorMessage === "string"
           ? errorMessage
@@ -66,7 +67,7 @@ export const Login = () => {
     formData.append("password", password.value);
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/api/v1/user/register",
+        `${client_url}/api/v1/user/register`,
         formData,
         {
           withCredentials: true,
