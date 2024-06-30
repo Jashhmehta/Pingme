@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { sampleUsers } from "../../../constants/sampleData";
+
 import UserItem from "../Shared/UserItem";
 import { useInputValidation } from "6pp";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +49,10 @@ const NewGroup = () => {
     if (!groupName.value) return toast.error("Group name is required");
     if (selectedmembers.length < 2)
       return toast.error("Please select atleast 3 members");
-    newGroup("Creating new group",{ name: groupName.value, members: selectedmembers });
+    newGroup("Creating new group", {
+      name: groupName.value,
+      members: selectedmembers,
+    });
     closeHandler();
   };
   const closeHandler = () => {
