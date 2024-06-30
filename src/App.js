@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { SocketProvider } from "../src/socket.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { userExists, userNotExists } from "./Client/Redux/reducers/auth.js";
+import { client_url } from "./constants/config.js";
 const Home = lazy(() => import("./Client/Pages/Home.jsx"));
 const Chat = lazy(() => import("./Client/Pages/Chat.jsx"));
 const Groups = lazy(() => import("./Client/Pages/Groups.jsx"));
@@ -27,9 +28,10 @@ const MessageManagement = lazy(() =>
 function App() {
   const { user, loader } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/v1/user/profile", {
+      .get(`${client_url}/api/v1/user/profile`, {
         withCredentials: true,
       })
       .then(({ data }) => dispatch(userExists(data.user)))
